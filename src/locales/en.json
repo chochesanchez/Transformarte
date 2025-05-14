@@ -1,0 +1,46 @@
+{
+  "navigation": {
+    "home": "Home",
+    "project": "Project",
+    "about": "About Us",
+    "donate": "Donate Artwork",
+    "catalog": "Catalog",
+    "community": "Community",
+    "contact": "Contact"
+  },
+  "home": {
+    "hero": {
+      "title": "TransformArte: Where Art and Mental Health Meet",
+      "subtitle": "Join our traveling tour and transform lives with your creativity.",
+      "cta": "Donate Your Artwork"
+    },
+    "summary": "TransformArte is an initiative by Rotary District 4130 that combines the power of art with mental health prevention for young people aged 15 to 19. Through exhibitions, workshops, and auctions in seven cities across Mexico, we invite artists and Rotarians to donate works that inspire dialogue and awareness."
+  },
+  "events": {
+    "title": "Upcoming Events"
+  },
+  "testimonials": {
+    "title": "Testimonials"
+  },
+  "project": {
+    "title": "Our Purpose: Art that Heals",
+    "subtitle": "Discover how we combine creativity and mental health prevention in 7 cities.",
+    "objectives": "<li>Create spaces for artistic expression.</li><li>Promote educational workshops and webinars.</li><li>Raise funds through auctions and donations.</li><li>Build support networks between young people and Rotarians.</li>",
+    "methodology": {
+      "title": "Methodology",
+      "workshops": "Workshops: Sessions with psychologists and artists to explore emotions.",
+      "webinars": "Webinars: Online talks about prevention and well-being.",
+      "auctions": "Virtual Auctions: Auction platform for donated works."
+    },
+    "events": {
+      "title": "Upcoming Rotary Nights: Join in Your City",
+      "city": "City",
+      "date": "Date",
+      "host": "Host Club"
+    },
+    "gallery": {
+      "title": "Gallery Preview",
+      "viewAll": "View Full Catalog"
+    }
+  }
+} 

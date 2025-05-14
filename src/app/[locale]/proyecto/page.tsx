@@ -1,0 +1,133 @@
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+// Static content for the page
+const content = {
+  en: {
+    title: "Our Project",
+    subtitle: "Art and mental health awareness in a transformative initiative",
+    description: "TransformArte is a comprehensive program that combines art and mental health education to create a positive impact on the lives of young people aged 15-19.",
+    visionTitle: "Our Vision",
+    visionText: "We envision a society where art serves as a powerful tool for mental health awareness, prevention, and healing. Through creative expression, we aim to break stigmas and open dialogue about mental health issues affecting young people.",
+    missionTitle: "Our Mission",
+    missionText: "To promote mental health awareness among young people through art, creating platforms for creative expression, education, and community engagement across seven cities in Mexico.",
+    objectivesTitle: "Objectives",
+    objectives: [
+      "Create spaces for artistic expression that foster mental health awareness",
+      "Educate young people about mental health through art and interactive workshops",
+      "Build a community of artists, mental health professionals, and young people",
+      "Raise funds to support mental health initiatives through art exhibitions and auctions",
+      "Reduce stigma around mental health discussions in local communities"
+    ],
+    approachTitle: "Our Approach",
+    approachText: "TransformArte operates through a series of coordinated activities in seven cities, including art workshops, educational talks, exhibitions, and community events.",
+    ctaTitle: "Join Our Initiative",
+    ctaText: "Whether you're an artist, mental health professional, or simply interested in supporting our cause, there are many ways to get involved.",
+    ctaButton: "How to Participate"
+  },
+  es: {
+    title: "Nuestro Proyecto",
+    subtitle: "Arte y concienciación sobre salud mental en una iniciativa transformadora",
+    description: "TransformArte es un programa integral que combina el arte y la educación en salud mental para crear un impacto positivo en la vida de jóvenes de 15 a 19 años.",
+    visionTitle: "Nuestra Visión",
+    visionText: "Visualizamos una sociedad donde el arte sirva como una poderosa herramienta para la concienciación, prevención y sanación de la salud mental. A través de la expresión creativa, buscamos romper estigmas y abrir el diálogo sobre problemas de salud mental que afectan a los jóvenes.",
+    missionTitle: "Nuestra Misión",
+    missionText: "Promover la concienciación sobre la salud mental entre los jóvenes a través del arte, creando plataformas para la expresión creativa, la educación y la participación comunitaria en siete ciudades de México.",
+    objectivesTitle: "Objetivos",
+    objectives: [
+      "Crear espacios de expresión artística que fomenten la conciencia sobre la salud mental",
+      "Educar a los jóvenes sobre salud mental a través del arte y talleres interactivos",
+      "Construir una comunidad de artistas, profesionales de la salud mental y jóvenes",
+      "Recaudar fondos para apoyar iniciativas de salud mental a través de exposiciones y subastas de arte",
+      "Reducir el estigma en torno a las discusiones sobre salud mental en las comunidades locales"
+    ],
+    approachTitle: "Nuestro Enfoque",
+    approachText: "TransformArte opera a través de una serie de actividades coordinadas en siete ciudades, incluyendo talleres de arte, charlas educativas, exposiciones y eventos comunitarios.",
+    ctaTitle: "Únete a Nuestra Iniciativa",
+    ctaText: "Ya seas artista, profesional de la salud mental o simplemente estés interesado en apoyar nuestra causa, hay muchas formas de participar.",
+    ctaButton: "Cómo Participar"
+  }
+};
+
+export default async function ProjectPage({
+  params,
+}: {
+  params: { locale: string }
+}) {
+  // Await params properly
+  const resolvedParams = await params;
+  const locale = resolvedParams.locale || 'es';
+  const t = content[locale === 'en' ? 'en' : 'es'];
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-4xl font-bold text-primary mb-4">{t.title}</h1>
+        <h2 className="text-2xl text-secondary mb-6">{t.subtitle}</h2>
+        <p className="text-lg text-gray-700 mb-12">{t.description}</p>
+        
+        {/* Vision & Mission Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+          <div className="bg-white p-8 rounded-lg shadow-md">
+            <h3 className="text-2xl font-semibold text-primary mb-4">{t.visionTitle}</h3>
+            <p className="text-gray-700">{t.visionText}</p>
+          </div>
+          
+          <div className="bg-white p-8 rounded-lg shadow-md">
+            <h3 className="text-2xl font-semibold text-primary mb-4">{t.missionTitle}</h3>
+            <p className="text-gray-700">{t.missionText}</p>
+          </div>
+        </div>
+        
+        {/* Objectives Section */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-semibold text-primary mb-6">{t.objectivesTitle}</h3>
+          <ul className="list-disc pl-6 space-y-3 text-gray-700">
+            {t.objectives.map((objective, index) => (
+              <li key={index} className="text-lg">{objective}</li>
+            ))}
+          </ul>
+        </div>
+        
+        {/* Approach Section */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-semibold text-primary mb-4">{t.approachTitle}</h3>
+          <p className="text-lg text-gray-700 mb-8">{t.approachText}</p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-blue-50 rounded-lg p-6 text-center">
+              <div className="mb-4 text-blue-500 text-3xl font-bold">1</div>
+              <h4 className="text-xl font-semibold mb-2">Workshops</h4>
+              <p className="text-gray-700">Art therapy and creative expression sessions for young people</p>
+            </div>
+            
+            <div className="bg-blue-50 rounded-lg p-6 text-center">
+              <div className="mb-4 text-blue-500 text-3xl font-bold">2</div>
+              <h4 className="text-xl font-semibold mb-2">Education</h4>
+              <p className="text-gray-700">Talks and seminars on mental health awareness and prevention</p>
+            </div>
+            
+            <div className="bg-blue-50 rounded-lg p-6 text-center">
+              <div className="mb-4 text-blue-500 text-3xl font-bold">3</div>
+              <h4 className="text-xl font-semibold mb-2">Exhibition</h4>
+              <p className="text-gray-700">Public showcases of artwork created during the program</p>
+            </div>
+          </div>
+        </div>
+        
+        {/* CTA Section */}
+        <div className="bg-primary text-white p-10 rounded-lg text-center">
+          <h3 className="text-2xl font-bold mb-4">{t.ctaTitle}</h3>
+          <p className="text-lg mb-6">{t.ctaText}</p>
+          <Link 
+            href={`/${locale}/comunidad`}
+            className="inline-block bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-full text-lg font-semibold transition-colors shadow-lg"
+          >
+            {t.ctaButton}
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+} 
