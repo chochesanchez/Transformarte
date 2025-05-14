@@ -1,6 +1,6 @@
 import { useLocale } from 'next-intl';
 
-// Default fallback translations - now used as the primary source
+// Default translations
 const translations = {
   en: {
     home: 'Home',
@@ -33,14 +33,9 @@ export interface NavigationTranslations {
 }
 
 export function useNavTranslations(): NavigationTranslations {
-  // Get the current locale
-  let locale;
-  try {
-    locale = useLocale();
-  } catch (error) {
-    locale = 'es'; // Fallback to Spanish
-  }
+  // Always call hooks unconditionally at the top level
+  const locale = useLocale();
   
-  // Simply return the hardcoded translations for the current locale
+  // Safe access to translations with fallback
   return translations[locale === 'en' ? 'en' : 'es'];
 } 
