@@ -16,17 +16,18 @@ export default function Navbar() {
     <nav className="w-full flex justify-between items-center px-8 py-4 bg-white shadow-sm fixed top-0 left-0 z-20">
       <div className="flex items-center gap-2">
         <Link href={`/${locale}`}>
-          <div className="relative h-10 w-auto">
+          <div className="relative h-12 w-auto flex items-center">
             <Image 
               src="/logo.png" 
               alt="TransformArte Logo" 
-              width={40}
-              height={40}
+              width={48}
+              height={48}
+              className="rounded-md"
               priority
             />
+            <span className="font-bold text-xl text-primary ml-2">TransformArte</span>
           </div>
         </Link>
-        <span className="font-bold text-xl text-primary">TransformArte</span>
       </div>
       <div className="hidden md:flex gap-6 font-medium">
         <ClientNavLinks locale={locale} translations={translations} />

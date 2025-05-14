@@ -5,6 +5,22 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'TransformArte - Donde la Salud Mental y el Arte se Encuentran',
   description: 'Iniciativa del Rotary Distrito 4130 que fusiona el poder del arte con la prevención de la salud mental en jóvenes.',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-icon.png',
+  },
+  openGraph: {
+    title: 'TransformArte - Donde la Salud Mental y el Arte se Encuentran',
+    description: 'Iniciativa del Rotary Distrito 4130 que fusiona el poder del arte con la prevención de la salud mental en jóvenes.',
+    images: ['/logo.png'],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'TransformArte - Donde la Salud Mental y el Arte se Encuentran',
+    description: 'Iniciativa del Rotary Distrito 4130 que fusiona el poder del arte con la prevención de la salud mental en jóvenes.',
+    images: ['/logo.png'],
+  },
 };
 
 // Redirect to the default locale's layout

@@ -42,6 +42,10 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-icon.png" />
+      </head>
       <body className={`${inter.variable} font-sans bg-white`}>
         <NextIntlClientProvider locale={locale} messages={localeMessages}>
           <Navbar />
