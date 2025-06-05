@@ -12,9 +12,39 @@
     "hero": {
       "title": "TransformArte: Where Art and Mental Health Meet",
       "subtitle": "Join our traveling tour and transform lives with your creativity.",
-      "cta": "Donate Your Artwork"
+      "cta": "Donate Your Artwork",
+      "learnMore": "Learn More"
     },
-    "summary": "TransformArte is an initiative by Rotary District 4130 that combines the power of art with mental health prevention for young people aged 15 to 19. Through exhibitions, workshops, and auctions in seven cities across Mexico, we invite artists and Rotarians to donate works that inspire dialogue and awareness."
+    "summary": "TransformArte is an initiative by Rotary District 4130 that combines the power of art with mental health prevention for young people aged 15 to 19. Through exhibitions, workshops, and auctions in seven cities across Mexico, we invite artists and Rotarians to donate works that inspire dialogue and awareness.",
+    "mission": {
+      "title": "Our Mission",
+      "description": "To promote mental health awareness among young people through art, creating a space for dialogue, expression, and community support."
+    },
+    "events": {
+      "title": "Upcoming Events",
+      "viewAll": "View All Events"
+    },
+    "testimonials": {
+      "title": "Messages",
+      "messages": [
+        "Rotary International works for peace, health, and education. At TransformArte, we join their cause with art and community.",
+        "TransformArte is made possible thanks to Rotary's drive: leaders who transform the world from local to global.",
+        "Rotary connects the world. In this tour, we connect emotions, art, and mental health to heal together.",
+        "More than 1.2 million Rotarians worldwide share an ideal of service. Today, art joins as a vehicle for change.",
+        "TransformArte is art with purpose, backed by Rotary: a global network serving humanity.",
+        "Rotary has been serving the world for over 100 years. Today, their vision embraces youth mental health with creativity and empathy.",
+        "Each work in this tour carries the Rotary spirit: solidarity, leadership, and action for the common good.",
+        "Rotary doesn't just build wells and schools... it also builds hope. TransformArte is a reflection of this.",
+        "TransformArte celebrates art, mental health, and unity. Thanks to Rotary, this tour is a bridge of possibilities.",
+        "Rotary means action. Today, their action is to inspire through art to heal minds and hearts."
+      ]
+    },
+    "callToAction": {
+      "title": "Join the Movement",
+      "description": "Become part of TransformArte by donating your artwork or volunteering in our events.",
+      "buttonArtist": "Call for Artists",
+      "buttonVolunteer": "Volunteer"
+    }
   },
   "events": {
     "title": "Upcoming Events"

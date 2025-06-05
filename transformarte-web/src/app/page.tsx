@@ -4,6 +4,24 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+const upcomingEvents = [
+  {
+    city: 'Monterrey',
+    date: '16 de julio, 2026',
+    club: 'CR Monterrey Metropolitano y CR Regiomontano Valle Oriente'
+  },
+  {
+    city: 'San Luis Potosí',
+    date: '06 de agosto, 2026',
+    club: 'CR San Luis Empresarial'
+  },
+  {
+    city: 'Nuevo Laredo',
+    date: '27 de agosto, 2026',
+    club: 'CR Villa de Nuevo Laredo'
+  }
+];
+
 export default function Home() {
   return (
     <main className="min-h-screen">
@@ -50,13 +68,21 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Próximos Eventos</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Event cards will be mapped here */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-xl font-semibold mb-2">Monterrey</h3>
-              <p className="text-gray-600 mb-2">12 de julio</p>
-              <p className="text-gray-500">Rotary Club Monterrey</p>
-            </div>
-            {/* Add more event cards as needed */}
+            {upcomingEvents.map((event, index) => (
+              <div key={index} className="bg-white rounded-lg shadow-md p-6">
+                <h3 className="text-xl font-semibold mb-2">{event.city}</h3>
+                <p className="text-gray-600 mb-2">{event.date}</p>
+                <p className="text-gray-500">{event.club}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link
+              href="/proyecto#eventos"
+              className="text-blue-600 hover:text-blue-800 font-semibold"
+            >
+              Ver Todos los Eventos →
+            </Link>
           </div>
         </div>
       </section>

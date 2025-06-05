@@ -1,10 +1,11 @@
 import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import '../globals.css';
-import { locales } from '@/i18n';
+import { locales, type Locale } from '@/i18n';
 
 // Import message files directly
 import enMessages from '../../../messages/en.json';
@@ -13,35 +14,56 @@ import esMessages from '../../../messages/es.json';
 const messages = {
   en: enMessages,
   es: esMessages
-};
+} as const;
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export function generateStaticParams() {
-  return locales.map(locale => ({ locale }));
+  return locales.map((locale) => ({ locale }));
+}
+
+export function generateMetadata({ params }: { params: { locale: Locale } }): Metadata {
+  const locale = params.locale;
+  
+  return {
+    metadataBase: new URL('https://transform-arte.com.mx'),
+    title: {
+      template: '%s | TransformArte',
+      default: 'TransformArte: Donde el Arte y la Salud Mental se Encuentran',
+    },
+    description: locale === 'en' 
+      ? 'TransformArte is an initiative by Rotary District 4130 that combines art with mental health awareness for young people.'
+      : 'TransformArte es una iniciativa del Rotary Distrito 4130 que fusiona el arte con la prevención de la salud mental en jóvenes.',
+    openGraph: {
+      title: 'TransformArte',
+      description: locale === 'en'
+        ? 'Where Art and Mental Health Meet'
+        : 'Donde el Arte y la Salud Mental se Encuentran',
+      url: 'https://transform-arte.com.mx',
+      siteName: 'TransformArte',
+      locale: locale,
+      type: 'website',
+    },
+  };
 }
 
 export default async function LocaleLayout({
   children,
-  params,
+  params: { locale },
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: { locale: Locale };
 }) {
-  // Properly await params object before destructuring
-  const resolvedParams = await params;
-  const locale = resolvedParams.locale;
-  
   // Validate locale
   if (!locales.includes(locale)) {
     notFound();
   }
 
-  // Use the pre-imported messages instead of dynamic loading
-  const localeMessages = locale === 'en' ? messages.en : messages.es;
+  // Use the pre-imported messages
+  const localeMessages = messages[locale];
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-icon.png" />

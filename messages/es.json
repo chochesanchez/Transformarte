@@ -12,15 +12,55 @@
     "hero": {
       "title": "TransformArte: Donde el Arte y la Salud Mental se Encuentran",
       "subtitle": "Únete a nuestra gira itinerante y transforma vidas con tu creatividad.",
-      "cta": "Dona tu Obra"
+      "cta": "Dona tu Obra",
+      "learnMore": "Conoce Más",
+      "imageAlt": "TransformArte Convocatoria"
     },
-    "summary": "TransformArte es una iniciativa del Rotary Distrito 4130 que fusiona el poder del arte con la prevención de la salud mental en jóvenes de 15 a 19 años. A través de exposiciones, talleres y subastas en siete ciudades de México, invitamos a artistas y rotarios a donar obras que inspiran diálogo y conciencia."
-  },
-  "events": {
-    "title": "Próximos Eventos"
-  },
-  "testimonials": {
-    "title": "Testimonios"
+    "summary": "TransformArte es una iniciativa del Rotary Distrito 4130 que fusiona el poder del arte con la prevención de la salud mental en jóvenes de 15 a 19 años. A través de exposiciones, talleres y subastas en siete ciudades de México, invitamos a artistas y rotarios a donar obras que inspiran diálogo y conciencia.",
+    "mission": {
+      "title": "Nuestra Misión",
+      "description": "Promover la conciencia sobre la salud mental entre los jóvenes a través del arte, creando un espacio para el diálogo, la expresión y el apoyo comunitario."
+    },
+    "events": {
+      "title": "Eventos Destacados",
+      "viewAll": "Ver Todos los Eventos",
+      "viewDetails": "Ver detalles",
+      "monterrey": {
+        "title": "Noche Rotaria TransformArte Monterrey",
+        "date": "16 de julio, 2026",
+        "location": "CR Monterrey Metropolitano y CR Regiomontano Valle Oriente"
+      },
+      "sanLuis": {
+        "title": "Noche Rotaria TransformArte San Luis Potosí",
+        "date": "06 de agosto, 2026",
+        "location": "CR San Luis Empresarial"
+      },
+      "nuevoLaredo": {
+        "title": "Noche Rotaria TransformArte Nuevo Laredo",
+        "date": "27 de agosto, 2026",
+        "location": "CR Villa de Nuevo Laredo"
+      }
+    },
+    "testimonials": {
+      "title": "Mensajes",
+      "messages": {
+        "0": "Rotary International trabaja por la paz, la salud y la educación. En TransformArte, nos unimos a su causa con arte y comunidad.",
+        "1": "TransformArte es posible gracias al impulso de Rotary: líderes que transforman el mundo desde lo local hasta lo global.",
+        "2": "Rotary conecta al mundo. En esta gira, conectamos emociones, arte y salud mental para sanar juntos.",
+        "3": "Más de 1.2 millones de rotarios en el mundo comparten un ideal de servicio. Hoy, se suma al arte como vehículo de cambio.",
+        "4": "TransformArte es arte con propósito, respaldado por Rotary: una red global al servicio de la humanidad.",
+        "5": "Rotary lleva más de 100 años sirviendo al mundo. Hoy, su visión abraza la salud mental juvenil con creatividad y empatía.",
+        "6": "Cada obra en esta gira lleva el espíritu rotario: solidaridad, liderazgo y acción por el bien común.",
+        "7": "Rotary no solo construye pozos y escuelas… también construye esperanza. TransformArte es un reflejo de ello.",
+        "8": "TransformArte celebra el arte, la salud mental y la unión. Gracias a Rotary, esta gira es un puente de posibilidades."
+      }
+    },
+    "callToAction": {
+      "title": "Únete al Movimiento",
+      "description": "Forma parte de TransformArte donando tu obra o siendo voluntario en nuestros eventos.",
+      "buttonArtist": "Convocatoria para Artistas",
+      "buttonVolunteer": "Voluntariado"
+    }
   },
   "project": {
     "title": "Nuestro Propósito: Arte que Sana",

@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import EventCalendar from '@/components/EventCalendar';
 
 // Static content for the page
 const content = {
@@ -24,7 +25,8 @@ const content = {
     approachText: "TransformArte operates through a series of coordinated activities in seven cities, including art workshops, educational talks, exhibitions, and community events.",
     ctaTitle: "Join Our Initiative",
     ctaText: "Whether you're an artist, mental health professional, or simply interested in supporting our cause, there are many ways to get involved.",
-    ctaButton: "How to Participate"
+    ctaButton: "How to Participate",
+    eventsTitle: "Events Calendar"
   },
   es: {
     title: "Nuestro Proyecto",
@@ -46,7 +48,8 @@ const content = {
     approachText: "TransformArte opera a través de una serie de actividades coordinadas en siete ciudades, incluyendo talleres de arte, charlas educativas, exposiciones y eventos comunitarios.",
     ctaTitle: "Únete a Nuestra Iniciativa",
     ctaText: "Ya seas artista, profesional de la salud mental o simplemente estés interesado en apoyar nuestra causa, hay muchas formas de participar.",
-    ctaButton: "Cómo Participar"
+    ctaButton: "Cómo Participar",
+    eventsTitle: "Calendario de Eventos"
   }
 };
 
@@ -55,7 +58,6 @@ export default async function ProjectPage({
 }: {
   params: { locale: string }
 }) {
-  // Await params properly
   const resolvedParams = await params;
   const locale = resolvedParams.locale || 'es';
   const t = content[locale === 'en' ? 'en' : 'es'];
@@ -114,6 +116,12 @@ export default async function ProjectPage({
               <p className="text-gray-700">Public showcases of artwork created during the program</p>
             </div>
           </div>
+        </div>
+
+        {/* Events Calendar Section */}
+        <div id="eventos" className="mb-16">
+          <h2 className="text-3xl font-bold text-center mb-8">{t.eventsTitle}</h2>
+          <EventCalendar locale={locale} />
         </div>
         
         {/* CTA Section */}

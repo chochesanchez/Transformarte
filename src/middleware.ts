@@ -6,9 +6,9 @@ export default createMiddleware({
   locales,
   // Used when no locale matches
   defaultLocale,
-  // Optional: Use prefix path routing instead of domain routing
-  localePrefix: 'as-needed',
-  // Add a fallback for when a non-supported locale is requested
+  // Use prefix path routing for better SEO and user experience
+  localePrefix: 'always',
+  // Enable locale detection
   localeDetection: true
 });
 
@@ -17,5 +17,7 @@ export const config = {
   // - files with extensions (e.g. favicon.ico)
   // - static assets
   // - API routes
-  matcher: ['/((?!api|_next/static|_next/image|images|favicon.ico|.*\\..*).*)']
+  // - public files
+  matcher: [
+    '/((?!api|_next/static|_next/image|images|assets|favicon.ico|manifest.json|robots.txt|.*\\..*).*)']
 }; 

@@ -12,15 +12,55 @@
     "hero": {
       "title": "TransformArte: Where Art and Mental Health Meet",
       "subtitle": "Join our traveling tour and transform lives with your creativity.",
-      "cta": "Donate Your Artwork"
+      "cta": "Donate Your Artwork",
+      "learnMore": "Learn More",
+      "imageAlt": "TransformArte Call for Artists"
     },
-    "summary": "TransformArte is an initiative by Rotary District 4130 that combines the power of art with mental health prevention for young people aged 15 to 19. Through exhibitions, workshops, and auctions in seven cities across Mexico, we invite artists and Rotarians to donate works that inspire dialogue and awareness."
-  },
-  "events": {
-    "title": "Upcoming Events"
-  },
-  "testimonials": {
-    "title": "Testimonials"
+    "summary": "TransformArte is an initiative by Rotary District 4130 that combines the power of art with mental health prevention for young people aged 15-19. Through exhibitions, workshops, and auctions in seven cities across Mexico, we invite artists and Rotarians to donate works that inspire dialogue and awareness.",
+    "mission": {
+      "title": "Our Mission",
+      "description": "To promote mental health awareness among young people through art, creating a space for dialogue, expression, and community support."
+    },
+    "events": {
+      "title": "Featured Events",
+      "viewAll": "View All Events",
+      "viewDetails": "View details",
+      "monterrey": {
+        "title": "TransformArte Rotary Night Monterrey",
+        "date": "July 16, 2026",
+        "location": "RC Monterrey Metropolitano & RC Regiomontano Valle Oriente"
+      },
+      "sanLuis": {
+        "title": "TransformArte Rotary Night San Luis Potosí",
+        "date": "August 06, 2026",
+        "location": "RC San Luis Empresarial"
+      },
+      "nuevoLaredo": {
+        "title": "TransformArte Rotary Night Nuevo Laredo",
+        "date": "August 27, 2026",
+        "location": "RC Villa de Nuevo Laredo"
+      }
+    },
+    "testimonials": {
+      "title": "Messages",
+      "messages": {
+        "0": "Rotary International works for peace, health, and education. At TransformArte, we join their cause with art and community.",
+        "1": "TransformArte is made possible thanks to Rotary's drive: leaders who transform the world from local to global.",
+        "2": "Rotary connects the world. In this tour, we connect emotions, art, and mental health to heal together.",
+        "3": "More than 1.2 million Rotarians worldwide share an ideal of service. Today, art joins as a vehicle for change.",
+        "4": "TransformArte is art with purpose, backed by Rotary: a global network serving humanity.",
+        "5": "Rotary has been serving the world for over 100 years. Today, their vision embraces youth mental health with creativity and empathy.",
+        "6": "Each work in this tour carries the Rotary spirit: solidarity, leadership, and action for the common good.",
+        "7": "Rotary doesn't just build wells and schools... it also builds hope. TransformArte is a reflection of this.",
+        "8": "TransformArte celebrates art, mental health, and unity. Thanks to Rotary, this tour is a bridge of possibilities."
+      }
+    },
+    "callToAction": {
+      "title": "Join the Movement",
+      "description": "Become part of TransformArte by donating your artwork or volunteering in our events.",
+      "buttonArtist": "Call for Artists",
+      "buttonVolunteer": "Volunteer"
+    }
   },
   "project": {
     "title": "Our Purpose: Art that Heals",
