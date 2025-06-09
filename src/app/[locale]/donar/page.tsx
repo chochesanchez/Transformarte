@@ -1,4 +1,7 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
+import ConfirmationPopup from '@/components/ConfirmationPopup';
 
 // Static content for the page
 const content = {
@@ -14,10 +17,14 @@ const content = {
     techniqueLabel: "Technique",
     dimensionsLabel: "Dimensions",
     descriptionLabel: "Description of your artwork",
+    imageLabel: "Upload Artwork Image",
+    imageHelp: "Upload a high-quality image of your artwork (JPG, PNG)",
+    marketPriceLabel: "Market Price (MXN)",
+    startingPriceLabel: "Starting Auction Price (MXN)",
     submitButton: "Submit Donation"
   },
   es: {
-    title: "Donar tu Obra",
+    title: "Dona tu Obra",
     subtitle: "Únete a la iniciativa y transforma vidas a través del arte",
     description: "Tu obra puede hacer una diferencia en la vida de los jóvenes. Al donar una pieza, estás contribuyendo a la concientización y prevención de la salud mental.",
     formTitle: "Formulario de Donación de Obra",
@@ -28,19 +35,27 @@ const content = {
     techniqueLabel: "Técnica",
     dimensionsLabel: "Dimensiones",
     descriptionLabel: "Descripción de tu obra",
+    imageLabel: "Subir Imagen de la Obra",
+    imageHelp: "Sube una imagen de alta calidad de tu obra (JPG, PNG)",
+    marketPriceLabel: "Precio Comercial (MXN)",
+    startingPriceLabel: "Precio de Salida (MXN)",
     submitButton: "Enviar Donación"
   }
 };
 
-export default async function DonatePage({
+export default function DonatePage({
   params,
 }: {
   params: { locale: string }
 }) {
-  // Await params properly
-  const resolvedParams = await params;
-  const locale = resolvedParams.locale || 'es';
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const locale = params.locale || 'es';
   const t = content[locale === 'en' ? 'en' : 'es'];
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsPopupOpen(true);
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -53,13 +68,14 @@ export default async function DonatePage({
         <div className="bg-white shadow-md rounded-lg p-8 mt-8">
           <h3 className="text-2xl font-semibold mb-6">{t.formTitle}</h3>
           
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-gray-700 mb-2">{t.nameLabel}</label>
                 <input
                   type="text"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  required
                 />
               </div>
               
@@ -68,6 +84,7 @@ export default async function DonatePage({
                 <input
                   type="email"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  required
                 />
               </div>
               
@@ -76,6 +93,7 @@ export default async function DonatePage({
                 <input
                   type="tel"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  required
                 />
               </div>
               
@@ -84,6 +102,7 @@ export default async function DonatePage({
                 <input
                   type="text"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  required
                 />
               </div>
               
@@ -92,6 +111,7 @@ export default async function DonatePage({
                 <input
                   type="text"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  required
                 />
               </div>
               
@@ -100,7 +120,36 @@ export default async function DonatePage({
                 <input
                   type="text"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  required
                 />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 mb-2">{t.marketPriceLabel}</label>
+                <div className="relative">
+                  <span className="absolute left-3 top-2 text-gray-500">$</span>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    className="w-full pl-8 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-gray-700 mb-2">{t.startingPriceLabel}</label>
+                <div className="relative">
+                  <span className="absolute left-3 top-2 text-gray-500">$</span>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    className="w-full pl-8 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    required
+                  />
+                </div>
               </div>
             </div>
             
@@ -109,7 +158,19 @@ export default async function DonatePage({
               <textarea
                 rows={4}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                required
               ></textarea>
+            </div>
+
+            <div>
+              <label className="block text-gray-700 mb-2">{t.imageLabel}</label>
+              <p className="text-sm text-gray-500 mb-2">{t.imageHelp}</p>
+              <input
+                type="file"
+                accept="image/jpeg,image/png"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
             </div>
             
             <div className="flex justify-center">
@@ -123,6 +184,12 @@ export default async function DonatePage({
           </form>
         </div>
       </div>
+
+      <ConfirmationPopup
+        isOpen={isPopupOpen}
+        onClose={() => setIsPopupOpen(false)}
+        locale={locale}
+      />
     </div>
   );
 } 

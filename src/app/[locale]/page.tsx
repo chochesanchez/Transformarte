@@ -41,7 +41,7 @@ export default async function HomePage({
               {t('hero.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href={`/${locale}/donar`} className="bg-yellow-500 hover:bg-yellow-600 text-blue-900 px-8 py-4 rounded-md text-lg font-semibold transition-colors shadow-lg inline-block text-center">
+              <Link href={`/${locale}/contacto`} className="bg-yellow-500 hover:bg-yellow-600 text-blue-900 px-8 py-4 rounded-md text-lg font-semibold transition-colors shadow-lg inline-block text-center">
                 {t('hero.cta')}
               </Link>
               <Link
@@ -89,33 +89,25 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* Events Section */}
+      {/* Próximos Eventos */}
       <section className="py-20 px-4 bg-gray-50">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 text-primary">
-            {t('events.title')}
-          </h2>
+          <h2 className="text-3xl font-bold text-center mb-12">{t('events.title')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {featuredEvents.map((eventKey) => (
               <div key={eventKey} className="bg-white rounded-lg shadow-md p-6 transform transition-transform hover:scale-105">
                 <div className="bg-blue-100 text-blue-800 inline-block px-3 py-1 rounded-full text-sm font-semibold mb-3">
                   {t(`events.${eventKey}.location`)}
-                </div>
+            </div>
                 <h3 className="text-xl font-semibold mb-2">{t(`events.${eventKey}.title`)}</h3>
                 <p className="text-gray-600 mb-2">{t(`events.${eventKey}.date`)}</p>
-                <Link
-                  href={`/${locale}/proyecto#eventos`}
-                  className="text-blue-600 hover:text-blue-800"
-                >
-                  {t('events.viewDetails')} →
-                </Link>
-              </div>
+            </div>
             ))}
           </div>
           <div className="text-center mt-10">
             <Link
               href={`/${locale}/proyecto#eventos`}
-              className="text-blue-600 hover:text-blue-800"
+              className="text-blue-600 hover:text-blue-800 font-semibold"
             >
               {t('events.viewAll')} →
             </Link>

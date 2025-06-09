@@ -72,13 +72,13 @@ export default async function ProjectPage({
         {/* Vision & Mission Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           <div className="bg-white p-8 rounded-lg shadow-md">
-            <h3 className="text-2xl font-semibold text-primary mb-4">{t.visionTitle}</h3>
-            <p className="text-gray-700">{t.visionText}</p>
+            <h3 className="text-2xl font-semibold text-primary mb-4">{t.missionTitle}</h3>
+            <p className="text-gray-700">{t.missionText}</p>
           </div>
           
           <div className="bg-white p-8 rounded-lg shadow-md">
-            <h3 className="text-2xl font-semibold text-primary mb-4">{t.missionTitle}</h3>
-            <p className="text-gray-700">{t.missionText}</p>
+            <h3 className="text-2xl font-semibold text-primary mb-4">{t.visionTitle}</h3>
+            <p className="text-gray-700">{t.visionText}</p>
           </div>
         </div>
         

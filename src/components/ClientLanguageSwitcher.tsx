@@ -31,12 +31,25 @@ export default function ClientLanguageSwitcher({ currentLocale }: LanguageSwitch
     <div className="relative">
       <button
         onClick={toggleDropdown}
-        className="flex items-center gap-1 text-gray-700 hover:text-primary"
+        className="flex items-center gap-2 text-gray-700 hover:text-primary"
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        <span>{locale === 'es' ? '🇪🇸' : '🇺🇸'}</span>
-        <span className="hidden md:inline">{locale === 'es' ? 'Español' : 'English'}</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span className="font-medium">{locale.toUpperCase()}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-4 w-4"
@@ -61,7 +74,7 @@ export default function ClientLanguageSwitcher({ currentLocale }: LanguageSwitch
               locale === 'es' ? 'bg-gray-100' : ''
             }`}
           >
-            🇪🇸 Español
+            ES
           </button>
           <button
             onClick={() => changeLanguage('en')}
@@ -69,7 +82,7 @@ export default function ClientLanguageSwitcher({ currentLocale }: LanguageSwitch
               locale === 'en' ? 'bg-gray-100' : ''
             }`}
           >
-            🇺🇸 English
+            EN
           </button>
         </div>
       )}

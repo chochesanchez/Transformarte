@@ -18,56 +18,56 @@ const events: Event[] = [
     title: 'Noche Rotaria TransformArte Monterrey',
     date: '16 de julio, 2026',
     location: 'Monterrey',
-    description: 'Noche Rotaria TransformArte presentada por CR Monterrey Metropolitano y CR Regiomontano Valle Oriente.',
-    club: 'CR Monterrey Metropolitano y CR Regiomontano Valle Oriente'
+    description: 'Noche Rotaria TransformArte presentada por Club Rotario Monterrey Metropolitano y Club Rotario Regiomontano Valle Oriente.',
+    club: 'Club Rotario Monterrey Metropolitano y Club Rotario Regiomontano Valle Oriente'
   },
   {
     id: 'san-luis',
     title: 'Noche Rotaria TransformArte San Luis Potosí',
     date: '06 de agosto, 2026',
     location: 'San Luis Potosí',
-    description: 'Noche Rotaria TransformArte presentada por CR San Luis Empresarial.',
-    club: 'CR San Luis Empresarial'
+    description: 'Noche Rotaria TransformArte presentada por Club Rotario San Luis Empresarial.',
+    club: 'Club Rotario San Luis Empresarial'
   },
   {
     id: 'nuevo-laredo',
     title: 'Noche Rotaria TransformArte Nuevo Laredo',
     date: '27 de agosto, 2026',
     location: 'Nuevo Laredo',
-    description: 'Noche Rotaria TransformArte presentada por CR Villa de Nuevo Laredo.',
-    club: 'CR Villa de Nuevo Laredo'
+    description: 'Noche Rotaria TransformArte presentada por Club Rotario Villa de Nuevo Laredo.',
+    club: 'Club Rotario Villa de Nuevo Laredo'
   },
   {
     id: 'reynosa',
     title: 'Noche Rotaria TransformArte Reynosa',
     date: '24 de septiembre, 2026',
     location: 'Reynosa',
-    description: 'Noche Rotaria TransformArte presentada por CR Reynosa.',
-    club: 'CR Reynosa'
+    description: 'Noche Rotaria TransformArte presentada por Club Rotario Reynosa.',
+    club: 'Club Rotario Reynosa'
   },
   {
     id: 'ciudad-victoria',
     title: 'Noche Rotaria TransformArte Ciudad Victoria',
     date: '06 de noviembre, 2026',
     location: 'Ciudad Victoria',
-    description: 'Noche Rotaria TransformArte presentada por CR Ciudad Victoria.',
-    club: 'CR Ciudad Victoria'
+    description: 'Noche Rotaria TransformArte presentada por Club Rotario Ciudad Victoria.',
+    club: 'Club Rotario Ciudad Victoria'
   },
   {
     id: 'tampico',
     title: 'Noche Rotaria TransformArte Tampico',
     date: '26 de noviembre, 2026',
     location: 'Tampico',
-    description: 'Noche Rotaria TransformArte presentada por CR Tampico Miramar.',
-    club: 'CR Tampico Miramar'
+    description: 'Noche Rotaria TransformArte presentada por Club Rotario Tampico Miramar.',
+    club: 'Club Rotario Tampico Miramar'
   },
   {
     id: 'matamoros',
     title: 'Noche Rotaria TransformArte Matamoros',
     date: '14 de enero, 2027',
     location: 'Matamoros',
-    description: 'Noche Rotaria TransformArte presentada por CR Matamoros Sur.',
-    club: 'CR Matamoros Sur'
+    description: 'Noche Rotaria TransformArte presentada por Club Rotario Matamoros Sur.',
+    club: 'Club Rotario Matamoros Sur'
   },
   {
     id: 'convencion-monterrey',
@@ -85,13 +85,13 @@ interface EventCalendarProps {
 
 const translations = {
   en: {
-    viewDetails: 'View Details',
+    register: 'Register',
     location: 'Location',
     date: 'Date',
     organizedBy: 'Organized by',
   },
   es: {
-    viewDetails: 'Ver detalles',
+    register: 'Registrar',
     location: 'Ubicación',
     date: 'Fecha',
     organizedBy: 'Organizado por',
@@ -120,10 +120,10 @@ export default function EventCalendar({ locale = 'es' }: EventCalendarProps) {
             </div>
           </div>
           <Link
-            href={`#${event.id}`}
+            href={`/${locale}/comunidad`}
             className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition-colors"
           >
-            {t.viewDetails}
+            {t.register}
           </Link>
         </div>
       ))}

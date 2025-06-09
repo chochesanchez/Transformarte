@@ -1,54 +1,64 @@
 import React from 'react';
 import Link from 'next/link';
+import CreatePostButton from './CreatePostButton';
+import CreatePostForm from './CreatePostForm';
 
 // Static content for the page
 const content = {
   en: {
-    title: "Join the TransformArte Community",
-    description: "Share your experiences, connect with other artists and rotarians, and receive updates on events and auctions.",
+    title: "Community",
+    description: "Join our community of artists and supporters of mental health awareness.",
     register: {
-      title: "Register",
-      description: "Create an account to access more content and connect with the community.",
-      button: "Register"
+      title: "Register for Events",
+      description: "Sign up for upcoming TransformArte events in your city. Your participation makes a difference!",
+      button: "Register Now"
     },
-    login: {
-      title: "Login",
-      description: "Already have an account? Log in to participate in the forum and stay up to date.",
-      button: "Log In"
+    createPost: {
+      title: "Share Your Experience",
+      description: "Share your thoughts, artwork, or event experiences with the TransformArte community.",
+      button: "Create Post"
     },
     forum: {
       title: "TransformArte Forum",
-      description: "Share your experiences, ask the community, and follow current discussions.",
-      coming_soon: "The forum will be available soon. Stay tuned!"
-    },
-    whatsapp: {
-      title: "WhatsApp Group",
-      description: "Want to chat in real time? Join our WhatsApp group for TransformArte members.",
-      button: "Join Group"
+      description: "Connect with other participants, share your experiences, and join the conversation.",
+      createPost: {
+        title: "Create New Post",
+        nameLabel: "Your Name",
+        titleLabel: "Post Title",
+        contentLabel: "Your Message",
+        imageLabel: "Add Image (optional)",
+        button: "Publish Post"
+      },
+      recentPosts: "Recent Posts",
+      noPosts: "Be the first to share your experience!"
     }
   },
   es: {
-    title: "Únete a la Comunidad TransformArte",
-    description: "Comparte tus experiencias, conecta con otros artistas y rotarios, y recibe novedades sobre eventos y subastas.",
+    title: "Comunidad",
+    description: "Únete a nuestra comunidad de artistas y promotores de la salud mental.",
     register: {
-      title: "Registrarse",
-      description: "Crea una cuenta para acceder a más contenido y conectar con la comunidad.",
-      button: "Registrarse"
+      title: "Registro para Eventos",
+      description: "Inscríbete en los próximos eventos de TransformArte en tu ciudad. ¡Tu participación hace la diferencia!",
+      button: "Registrarme Ahora"
     },
-    login: {
-      title: "Iniciar Sesión",
-      description: "¿Ya tienes una cuenta? Accede para participar en el foro y estar al día.",
-      button: "Iniciar Sesión"
+    createPost: {
+      title: "Comparte tu Experiencia",
+      description: "Comparte tus pensamientos, obras o experiencias de los eventos con la comunidad TransformArte.",
+      button: "Crear Publicación"
     },
     forum: {
       title: "Foro TransformArte",
-      description: "Comparte tus experiencias, pregunta a la comunidad y sigue los debates actuales.",
-      coming_soon: "El foro estará disponible pronto. ¡Mantente al tanto!"
-    },
-    whatsapp: {
-      title: "Grupo WhatsApp",
-      description: "¿Quieres conversar en tiempo real? Únete a nuestro grupo de WhatsApp para miembros TransformArte.",
-      button: "Unirme al Grupo"
+      description: "Conecta con otros participantes, comparte tus experiencias y únete a la conversación.",
+      createPost: {
+        title: "Crear Nueva Publicación",
+        nameLabel: "Tu Nombre",
+        titleLabel: "Título de la Publicación",
+        contentLabel: "Tu Mensaje",
+        imageLabel: "Agregar Imagen (opcional)",
+        button: "Publicar"
+      },
+      recentPosts: "Publicaciones Recientes",
+      noPosts: "¡Sé el primero en compartir tu experiencia!"
     }
   }
 };
@@ -58,7 +68,6 @@ export default async function CommunityPage({
 }: {
   params: { locale: string }
 }) {
-  // Await params properly
   const resolvedParams = await params;
   const locale = resolvedParams.locale || 'es';
   const t = content[locale === 'en' ? 'en' : 'es'];
@@ -73,34 +82,34 @@ export default async function CommunityPage({
           <div className="bg-gray-50 p-6 rounded-lg shadow">
             <h2 className="text-2xl font-semibold mb-4">{t.register.title}</h2>
             <p className="text-gray-600 mb-4">{t.register.description}</p>
-            <Link href="#" className="bg-primary text-white px-6 py-2 rounded-full font-semibold inline-block">
+            <Link 
+              href="#" // Will be replaced with Google Forms link
+              target="_blank"
+              className="bg-primary text-white px-6 py-2 rounded-full font-semibold inline-block hover:bg-primary/90"
+            >
               {t.register.button}
             </Link>
           </div>
           
           <div className="bg-gray-50 p-6 rounded-lg shadow">
-            <h2 className="text-2xl font-semibold mb-4">{t.login.title}</h2>
-            <p className="text-gray-600 mb-4">{t.login.description}</p>
-            <Link href="#" className="bg-primary text-white px-6 py-2 rounded-full font-semibold inline-block">
-              {t.login.button}
-            </Link>
+            <h2 className="text-2xl font-semibold mb-4">{t.createPost.title}</h2>
+            <p className="text-gray-600 mb-4">{t.createPost.description}</p>
+            <CreatePostButton buttonText={t.createPost.button} />
           </div>
         </div>
         
         <div className="bg-gray-50 p-6 rounded-lg shadow mb-8">
           <h2 className="text-2xl font-semibold mb-4">{t.forum.title}</h2>
-          <p className="text-gray-600 mb-4">{t.forum.description}</p>
-          <div className="border rounded bg-white p-4 mb-4">
-            <p className="text-gray-400 italic">{t.forum.coming_soon}</p>
+          <p className="text-gray-600 mb-8">{t.forum.description}</p>
+
+          <CreatePostForm labels={t.forum.createPost} />
+
+          <div>
+            <h3 className="text-xl font-semibold mb-4">{t.forum.recentPosts}</h3>
+            <div className="text-center text-gray-500">
+              {t.forum.noPosts}
+            </div>
           </div>
-        </div>
-        
-        <div className="bg-gray-50 p-6 rounded-lg shadow">
-          <h2 className="text-2xl font-semibold mb-4">{t.whatsapp.title}</h2>
-          <p className="text-gray-600 mb-4">{t.whatsapp.description}</p>
-          <Link href="#" className="bg-green-500 text-white px-6 py-2 rounded-full font-semibold inline-block">
-            {t.whatsapp.button}
-          </Link>
         </div>
       </section>
     </div>

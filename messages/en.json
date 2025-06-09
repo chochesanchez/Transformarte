@@ -22,23 +22,23 @@
       "description": "To promote mental health awareness among young people through art, creating a space for dialogue, expression, and community support."
     },
     "events": {
-      "title": "Featured Events",
+      "title": "Upcoming Events",
       "viewAll": "View All Events",
-      "viewDetails": "View details",
+      "register": "Register",
       "monterrey": {
         "title": "TransformArte Rotary Night Monterrey",
         "date": "July 16, 2026",
-        "location": "RC Monterrey Metropolitano & RC Regiomontano Valle Oriente"
+        "location": "Rotary Club Monterrey Metropolitano & Rotary Club Regiomontano Valle Oriente"
       },
       "sanLuis": {
         "title": "TransformArte Rotary Night San Luis Potosí",
         "date": "August 06, 2026",
-        "location": "RC San Luis Empresarial"
+        "location": "Rotary Club San Luis Empresarial"
       },
       "nuevoLaredo": {
         "title": "TransformArte Rotary Night Nuevo Laredo",
         "date": "August 27, 2026",
-        "location": "RC Villa de Nuevo Laredo"
+        "location": "Rotary Club Villa de Nuevo Laredo"
       }
     },
     "testimonials": {

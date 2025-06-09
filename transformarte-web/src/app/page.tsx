@@ -8,17 +8,17 @@ const upcomingEvents = [
   {
     city: 'Monterrey',
     date: '16 de julio, 2026',
-    club: 'CR Monterrey Metropolitano y CR Regiomontano Valle Oriente'
+    club: 'Club Rotario Monterrey Metropolitano y Club Rotario Regiomontano Valle Oriente'
   },
   {
     city: 'San Luis Potosí',
     date: '06 de agosto, 2026',
-    club: 'CR San Luis Empresarial'
+    club: 'Club Rotario San Luis Empresarial'
   },
   {
     city: 'Nuevo Laredo',
     date: '27 de agosto, 2026',
-    club: 'CR Villa de Nuevo Laredo'
+    club: 'Club Rotario Villa de Nuevo Laredo'
   }
 ];
 

@@ -1,59 +1,89 @@
-# TransformArte Web
+# TransformArte Website
 
-Sitio web oficial de TransformArte, una iniciativa del Rotary Distrito 4130 que fusiona el poder del arte con la prevención de la salud mental en jóvenes.
+Official website for TransformArte, a Rotary District 4130 initiative combining art with mental health awareness.
 
-## Tecnologías
+## Project Structure
 
-- Next.js 14
-- TypeScript
-- Tailwind CSS
-- React 18
-
-## Requisitos
-
-- Node.js 18.17 o superior
-- npm 9.0 o superior
-
-## Instalación
-
-1. Clona el repositorio:
-```bash
-git clone [URL_DEL_REPOSITORIO]
-cd transformarte-web
+```
+/Users/chochesanchez/Desktop/PROJECTS/ROTARY/TRANSFORMARTE/WEB PAGE/
+├── src/                      # Main source code
+│   ├── components/           # React components
+│   │   ├── EventCalendar.tsx    # Events listing component
+│   │   └── ...
+│   ├── app/                  # Next.js app directory
+│   │   └── [locale]/            # Internationalized pages
+│   └── ...
+├── messages/                 # Translation files
+│   ├── en.json              # English translations
+│   └── es.json              # Spanish translations
+└── ...
 ```
 
-2. Instala las dependencias:
+## Important Files for Content Updates
+
+### Events
+- `src/components/EventCalendar.tsx` - Main events listing
+- `messages/es.json` and `messages/en.json` - Featured events on homepage
+- `src/app/[locale]/page.tsx` - Homepage with featured events section
+
+## Deployment
+
+This project is deployed to [transform-arte.com.mx](https://transform-arte.com.mx) using Vercel.
+
+### Correct Deployment Process
+
+1. Make sure you're in the correct directory:
+```bash
+   cd /Users/chochesanchez/Desktop/PROJECTS/ROTARY/TRANSFORMARTE/WEB PAGE
+   ```
+
+2. Build and deploy:
+   ```bash
+   npm run build && vercel deploy --prod
+   ```
+
+3. After deployment, clear browser cache and hard refresh (Cmd/Ctrl + Shift + R)
+
+### ⚠️ Important Notes
+
+- This is the MAIN project connected to transform-arte.com.mx
+- Do NOT create new Vercel projects or deployments
+- Always deploy from this directory
+- The project is already properly linked to Vercel with the correct production domain
+
+## Development
+
+1. Install dependencies:
 ```bash
 npm install
 ```
 
-3. Inicia el servidor de desarrollo:
+2. Run development server:
 ```bash
 npm run dev
 ```
 
-4. Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+3. View the site at [http://localhost:3000](http://localhost:3000)
 
-## Estructura del Proyecto
+## Content Updates
 
-```
-src/
-├── app/              # Páginas y layouts de Next.js
-├── components/       # Componentes reutilizables
-├── styles/          # Estilos globales y configuración de Tailwind
-└── types/           # Definiciones de TypeScript
-```
+### Updating Events
 
-## Scripts Disponibles
+1. Edit `src/components/EventCalendar.tsx` for the full events list
+2. Update `messages/es.json` and `messages/en.json` for featured events on homepage
+3. Build and deploy using the steps above
 
-- `npm run dev` - Inicia el servidor de desarrollo
-- `npm run build` - Construye la aplicación para producción
-- `npm start` - Inicia el servidor de producción
-- `npm run lint` - Ejecuta el linter
+## Internationalization
 
-## Contribución
+- Spanish (es) is the default language
+- English (en) translations are available
+- All content should be updated in both language files
 
-1. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-2. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-3. Push a la rama (`git push origin feature/AmazingFeature`)
-4. Abre un Pull Request
+## Project Links
+
+- Production: [transform-arte.com.mx](https://transform-arte.com.mx)
+- Vercel Dashboard: [Vercel Project](https://vercel.com/chochesanchez2003-gmailcoms-projects/transformarte)
+
+## Support
+
+For any questions or issues, please contact the project maintainers.

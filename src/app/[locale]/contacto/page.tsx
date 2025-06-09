@@ -19,9 +19,9 @@ const content = {
       paypal: "Donate with PayPal",
       bank: {
         title: "Bank Transfer",
-        bank: "Bank: BBVA",
-        account: "Account: 0123456789",
-        clabe: "CLABE: 012345678901234567",
+        bank: "Bank: Santander",
+        number: "Number: 5471 4601 1157 4997",
+        name: "Name: José Manuel Sánchez Aguilar",
         beneficiary: "Beneficiary: TransformArte Foundation"
       }
     },
@@ -48,9 +48,9 @@ const content = {
       paypal: "Donar con PayPal",
       bank: {
         title: "Transferencia Bancaria",
-        bank: "Banco: BBVA",
-        account: "Cuenta: 0123456789",
-        clabe: "CLABE: 012345678901234567",
+        bank: "Banco: Santander",
+        number: "Numero: 5471 4601 1157 4997",
+        name: "Nombre: José Manuel Sánchez Aguilar",
         beneficiary: "Beneficiario: Fundación TransformArte A.C."
       }
     },
@@ -109,16 +109,20 @@ export default async function ContactPage({
               <div className="space-y-4">
                 <div>
                   <h3 className="font-semibold mb-1">PayPal</h3>
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded">
+                  <Link 
+                    href="https://www.paypal.com/paypalme/chochesanchez"
+                    target="_blank"
+                    className="bg-blue-500 text-white px-4 py-2 rounded inline-block hover:bg-blue-600 transition-colors"
+                  >
                     {t.donations.paypal}
-                  </button>
+                  </Link>
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1">{t.donations.bank.title}</h3>
                   <p className="text-sm text-gray-600">
                     {t.donations.bank.bank}<br />
-                    {t.donations.bank.account}<br />
-                    {t.donations.bank.clabe}<br />
+                    {t.donations.bank.number}<br />
+                    {t.donations.bank.name}<br />
                     {t.donations.bank.beneficiary}
                   </p>
                 </div>

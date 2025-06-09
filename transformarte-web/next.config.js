@@ -2,5 +2,5 @@
 const nextConfig = {
   // Configuration here
 }
-
+ 
 module.exports = nextConfig 

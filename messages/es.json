@@ -12,7 +12,7 @@
     "hero": {
       "title": "TransformArte: Donde el Arte y la Salud Mental se Encuentran",
       "subtitle": "Únete a nuestra gira itinerante y transforma vidas con tu creatividad.",
-      "cta": "Dona tu Obra",
+      "cta": "Donar",
       "learnMore": "Conoce Más",
       "imageAlt": "TransformArte Convocatoria"
     },
@@ -22,23 +22,23 @@
       "description": "Promover la conciencia sobre la salud mental entre los jóvenes a través del arte, creando un espacio para el diálogo, la expresión y el apoyo comunitario."
     },
     "events": {
-      "title": "Eventos Destacados",
+      "title": "Próximos Eventos",
       "viewAll": "Ver Todos los Eventos",
-      "viewDetails": "Ver detalles",
+      "register": "Registrar",
       "monterrey": {
         "title": "Noche Rotaria TransformArte Monterrey",
         "date": "16 de julio, 2026",
-        "location": "CR Monterrey Metropolitano y CR Regiomontano Valle Oriente"
+        "location": "Club Rotario Monterrey Metropolitano y Club Rotario Regiomontano Valle Oriente"
       },
       "sanLuis": {
         "title": "Noche Rotaria TransformArte San Luis Potosí",
         "date": "06 de agosto, 2026",
-        "location": "CR San Luis Empresarial"
+        "location": "Club Rotario San Luis Empresarial"
       },
       "nuevoLaredo": {
         "title": "Noche Rotaria TransformArte Nuevo Laredo",
         "date": "27 de agosto, 2026",
-        "location": "CR Villa de Nuevo Laredo"
+        "location": "Club Rotario Villa de Nuevo Laredo"
       }
     },
     "testimonials": {
