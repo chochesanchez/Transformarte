@@ -8,6 +8,25 @@
     "community": "Comunidad",
     "contact": "Contacto"
   },
+  "footer": {
+    "description": "Iniciativa del Rotary Distrito 4130 que fusiona el poder del arte con la prevención de la salud mental en jóvenes.",
+    "links": "Enlaces",
+    "contact": "Contacto",
+    "email": "Correo electrónico",
+    "phone": "Teléfono",
+    "newsletter": {
+      "title": "Suscríbete a nuestro boletín",
+      "placeholder": "Tu correo electrónico",
+      "button": "Suscribir"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "youtube": "YouTube"
+    },
+    "copyright": "Todos los derechos reservados."
+  },
   "home": {
     "hero": {
       "title": "TransformArte: Donde el Arte y la Salud Mental se Encuentran",

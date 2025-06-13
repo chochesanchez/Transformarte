@@ -4,77 +4,158 @@ import Link from 'next/link';
 // Event type definition
 interface Event {
   id: string;
-  title: string;
-  date: string;
+  title: {
+    en: string;
+    es: string;
+  };
+  date: {
+    en: string;
+    es: string;
+  };
   location: string;
-  description: string;
+  description: {
+    en: string;
+    es: string;
+  };
   club: string;
 }
 
-// Events data
+// Events data with translations
 const events: Event[] = [
   {
     id: 'monterrey',
-    title: 'Noche Rotaria TransformArte Monterrey',
-    date: '16 de julio, 2026',
+    title: {
+      en: 'TransformArte Rotary Night Monterrey',
+      es: 'Noche Rotaria TransformArte Monterrey'
+    },
+    date: {
+      en: 'July 16, 2026',
+      es: '16 de julio, 2026'
+    },
     location: 'Monterrey',
-    description: 'Noche Rotaria TransformArte presentada por Club Rotario Monterrey Metropolitano y Club Rotario Regiomontano Valle Oriente.',
+    description: {
+      en: 'TransformArte Rotary Night presented by Rotary Club Monterrey Metropolitano and Rotary Club Regiomontano Valle Oriente.',
+      es: 'Noche Rotaria TransformArte presentada por Club Rotario Monterrey Metropolitano y Club Rotario Regiomontano Valle Oriente.'
+    },
     club: 'Club Rotario Monterrey Metropolitano y Club Rotario Regiomontano Valle Oriente'
   },
   {
     id: 'san-luis',
-    title: 'Noche Rotaria TransformArte San Luis Potosí',
-    date: '06 de agosto, 2026',
+    title: {
+      en: 'TransformArte Rotary Night San Luis Potosí',
+      es: 'Noche Rotaria TransformArte San Luis Potosí'
+    },
+    date: {
+      en: 'August 06, 2026',
+      es: '06 de agosto, 2026'
+    },
     location: 'San Luis Potosí',
-    description: 'Noche Rotaria TransformArte presentada por Club Rotario San Luis Empresarial.',
+    description: {
+      en: 'TransformArte Rotary Night presented by Rotary Club San Luis Empresarial.',
+      es: 'Noche Rotaria TransformArte presentada por Club Rotario San Luis Empresarial.'
+    },
     club: 'Club Rotario San Luis Empresarial'
   },
   {
     id: 'nuevo-laredo',
-    title: 'Noche Rotaria TransformArte Nuevo Laredo',
-    date: '27 de agosto, 2026',
+    title: {
+      en: 'TransformArte Rotary Night Nuevo Laredo',
+      es: 'Noche Rotaria TransformArte Nuevo Laredo'
+    },
+    date: {
+      en: 'August 27, 2026',
+      es: '27 de agosto, 2026'
+    },
     location: 'Nuevo Laredo',
-    description: 'Noche Rotaria TransformArte presentada por Club Rotario Villa de Nuevo Laredo.',
+    description: {
+      en: 'TransformArte Rotary Night presented by Rotary Club Villa de Nuevo Laredo.',
+      es: 'Noche Rotaria TransformArte presentada por Club Rotario Villa de Nuevo Laredo.'
+    },
     club: 'Club Rotario Villa de Nuevo Laredo'
   },
   {
     id: 'reynosa',
-    title: 'Noche Rotaria TransformArte Reynosa',
-    date: '24 de septiembre, 2026',
+    title: {
+      en: 'TransformArte Rotary Night Reynosa',
+      es: 'Noche Rotaria TransformArte Reynosa'
+    },
+    date: {
+      en: 'September 24, 2026',
+      es: '24 de septiembre, 2026'
+    },
     location: 'Reynosa',
-    description: 'Noche Rotaria TransformArte presentada por Club Rotario Reynosa.',
+    description: {
+      en: 'TransformArte Rotary Night presented by Rotary Club Reynosa.',
+      es: 'Noche Rotaria TransformArte presentada por Club Rotario Reynosa.'
+    },
     club: 'Club Rotario Reynosa'
   },
   {
     id: 'ciudad-victoria',
-    title: 'Noche Rotaria TransformArte Ciudad Victoria',
-    date: '06 de noviembre, 2026',
+    title: {
+      en: 'TransformArte Rotary Night Ciudad Victoria',
+      es: 'Noche Rotaria TransformArte Ciudad Victoria'
+    },
+    date: {
+      en: 'November 06, 2026',
+      es: '06 de noviembre, 2026'
+    },
     location: 'Ciudad Victoria',
-    description: 'Noche Rotaria TransformArte presentada por Club Rotario Ciudad Victoria.',
+    description: {
+      en: 'TransformArte Rotary Night presented by Rotary Club Ciudad Victoria.',
+      es: 'Noche Rotaria TransformArte presentada por Club Rotario Ciudad Victoria.'
+    },
     club: 'Club Rotario Ciudad Victoria'
   },
   {
     id: 'tampico',
-    title: 'Noche Rotaria TransformArte Tampico',
-    date: '26 de noviembre, 2026',
+    title: {
+      en: 'TransformArte Rotary Night Tampico',
+      es: 'Noche Rotaria TransformArte Tampico'
+    },
+    date: {
+      en: 'November 26, 2026',
+      es: '26 de noviembre, 2026'
+    },
     location: 'Tampico',
-    description: 'Noche Rotaria TransformArte presentada por Club Rotario Tampico Miramar.',
+    description: {
+      en: 'TransformArte Rotary Night presented by Rotary Club Tampico Miramar.',
+      es: 'Noche Rotaria TransformArte presentada por Club Rotario Tampico Miramar.'
+    },
     club: 'Club Rotario Tampico Miramar'
   },
   {
     id: 'matamoros',
-    title: 'Noche Rotaria TransformArte Matamoros',
-    date: '14 de enero, 2027',
+    title: {
+      en: 'TransformArte Rotary Night Matamoros',
+      es: 'Noche Rotaria TransformArte Matamoros'
+    },
+    date: {
+      en: 'January 14, 2027',
+      es: '14 de enero, 2027'
+    },
     location: 'Matamoros',
-    description: 'Noche Rotaria TransformArte presentada por Club Rotario Matamoros Sur.',
+    description: {
+      en: 'TransformArte Rotary Night presented by Rotary Club Matamoros Sur.',
+      es: 'Noche Rotaria TransformArte presentada por Club Rotario Matamoros Sur.'
+    },
     club: 'Club Rotario Matamoros Sur'
   },
   {
     id: 'convencion-monterrey',
-    title: 'Convención Distrital Monterrey - TransformArte',
-    date: '22 al 25 de abril, 2027',
+    title: {
+      en: 'District Convention Monterrey - TransformArte',
+      es: 'Convención Distrital Monterrey - TransformArte'
+    },
+    date: {
+      en: 'April 22-25, 2027',
+      es: '22 al 25 de abril, 2027'
+    },
     location: 'Monterrey',
-    description: 'Convención Distrital con exposición final de TransformArte.',
+    description: {
+      en: 'District Convention with TransformArte final exhibition.',
+      es: 'Convención Distrital con exposición final de TransformArte.'
+    },
     club: 'Distrito Rotario'
   }
 ];
@@ -106,10 +187,10 @@ export default function EventCalendar({ locale = 'es' }: EventCalendarProps) {
       {events.map((event) => (
         <div key={event.id} className="bg-white rounded-lg p-6 shadow-md flex justify-between items-center">
           <div>
-            <h3 className="text-xl font-semibold text-primary mb-2">{event.title}</h3>
+            <h3 className="text-xl font-semibold text-primary mb-2">{event.title[locale === 'en' ? 'en' : 'es']}</h3>
             <div className="space-y-1">
               <p className="text-gray-600">
-                <span className="font-medium">{t.date}:</span> {event.date}
+                <span className="font-medium">{t.date}:</span> {event.date[locale === 'en' ? 'en' : 'es']}
               </p>
               <p className="text-gray-600">
                 <span className="font-medium">{t.location}:</span> {event.location}

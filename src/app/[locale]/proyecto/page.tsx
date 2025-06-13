@@ -26,7 +26,21 @@ const content = {
     ctaTitle: "Join Our Initiative",
     ctaText: "Whether you're an artist, mental health professional, or simply interested in supporting our cause, there are many ways to get involved.",
     ctaButton: "How to Participate",
-    eventsTitle: "Events Calendar"
+    eventsTitle: "Events Calendar",
+    approachSteps: {
+      workshop: {
+        title: "Workshops",
+        description: "Art therapy and creative expression sessions for young people"
+      },
+      education: {
+        title: "Education",
+        description: "Talks and seminars on mental health awareness and prevention"
+      },
+      exhibition: {
+        title: "Exhibition",
+        description: "Public showcases of artwork created during the program"
+      }
+    }
   },
   es: {
     title: "Nuestro Proyecto",
@@ -49,7 +63,21 @@ const content = {
     ctaTitle: "Únete a Nuestra Iniciativa",
     ctaText: "Ya seas artista, profesional de la salud mental o simplemente estés interesado en apoyar nuestra causa, hay muchas formas de participar.",
     ctaButton: "Cómo Participar",
-    eventsTitle: "Calendario de Eventos"
+    eventsTitle: "Calendario de Eventos",
+    approachSteps: {
+      workshop: {
+        title: "Talleres",
+        description: "Sesiones de arteterapia y expresión creativa para jóvenes"
+      },
+      education: {
+        title: "Educación",
+        description: "Charlas y seminarios sobre concientización y prevención de la salud mental"
+      },
+      exhibition: {
+        title: "Exposición",
+        description: "Exhibiciones públicas de obras creadas durante el programa"
+      }
+    }
   }
 };
 
@@ -100,20 +128,20 @@ export default async function ProjectPage({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-blue-50 rounded-lg p-6 text-center">
               <div className="mb-4 text-blue-500 text-3xl font-bold">1</div>
-              <h4 className="text-xl font-semibold mb-2">Workshops</h4>
-              <p className="text-gray-700">Art therapy and creative expression sessions for young people</p>
+              <h4 className="text-xl font-semibold mb-2">{t.approachSteps.workshop.title}</h4>
+              <p className="text-gray-700">{t.approachSteps.workshop.description}</p>
             </div>
             
             <div className="bg-blue-50 rounded-lg p-6 text-center">
               <div className="mb-4 text-blue-500 text-3xl font-bold">2</div>
-              <h4 className="text-xl font-semibold mb-2">Education</h4>
-              <p className="text-gray-700">Talks and seminars on mental health awareness and prevention</p>
+              <h4 className="text-xl font-semibold mb-2">{t.approachSteps.education.title}</h4>
+              <p className="text-gray-700">{t.approachSteps.education.description}</p>
             </div>
             
             <div className="bg-blue-50 rounded-lg p-6 text-center">
               <div className="mb-4 text-blue-500 text-3xl font-bold">3</div>
-              <h4 className="text-xl font-semibold mb-2">Exhibition</h4>
-              <p className="text-gray-700">Public showcases of artwork created during the program</p>
+              <h4 className="text-xl font-semibold mb-2">{t.approachSteps.exhibition.title}</h4>
+              <p className="text-gray-700">{t.approachSteps.exhibition.description}</p>
             </div>
           </div>
         </div>

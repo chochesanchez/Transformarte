@@ -3,16 +3,35 @@
     "home": "Home",
     "project": "Project",
     "about": "About Us",
-    "donate": "Donate Artwork",
+    "donate": "Donate",
     "catalog": "Catalog",
     "community": "Community",
     "contact": "Contact"
+  },
+  "footer": {
+    "description": "A Rotary District 4130 initiative that combines the power of art with mental health prevention for young people.",
+    "links": "Links",
+    "contact": "Contact",
+    "email": "Email",
+    "phone": "Phone",
+    "newsletter": {
+      "title": "Subscribe to our newsletter",
+      "placeholder": "Your email",
+      "button": "Subscribe"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "youtube": "YouTube"
+    },
+    "copyright": "All rights reserved."
   },
   "home": {
     "hero": {
       "title": "TransformArte: Where Art and Mental Health Meet",
       "subtitle": "Join our traveling tour and transform lives with your creativity.",
-      "cta": "Donate Your Artwork",
+      "cta": "Donate",
       "learnMore": "Learn More",
       "imageAlt": "TransformArte Call for Artists"
     },

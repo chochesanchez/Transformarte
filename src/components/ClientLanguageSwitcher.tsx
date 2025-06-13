@@ -1,7 +1,8 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { setCookie, getCookie } from 'cookies-next';
 
 interface LanguageSwitcherProps {
   currentLocale: string;
@@ -11,6 +12,15 @@ export default function ClientLanguageSwitcher({ currentLocale }: LanguageSwitch
   const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [displayLocale, setDisplayLocale] = useState(currentLocale);
+
+  // Initialize language from cookie or default
+  useEffect(() => {
+    const savedLocale = getCookie('NEXT_LOCALE');
+    if (savedLocale && savedLocale !== currentLocale) {
+      changeLanguage(savedLocale as string);
+    }
+  }, []);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -18,14 +28,27 @@ export default function ClientLanguageSwitcher({ currentLocale }: LanguageSwitch
     // Extract current locale from pathname
     const pathnameWithoutLocale = pathname?.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '';
     
+    // Save language preference in cookie
+    setCookie('NEXT_LOCALE', newLocale, {
+      maxAge: 365 * 24 * 60 * 60, // 1 year
+      path: '/',
+    });
+
+    // Update the display locale
+    setDisplayLocale(newLocale);
+
+    // Trigger storage event for other components
+    window.dispatchEvent(new Event('storage'));
+
     // Navigate to the new locale path
     const newPath = `/${newLocale}${pathnameWithoutLocale || ''}`;
     router.push(newPath);
     
+    // Force a hard refresh to update all components
+    window.location.href = newPath;
+    
     setIsOpen(false);
   };
-
-  const locale = currentLocale || 'es';
 
   return (
     <div className="relative">
@@ -49,7 +72,7 @@ export default function ClientLanguageSwitcher({ currentLocale }: LanguageSwitch
             d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
-        <span className="font-medium">{locale.toUpperCase()}</span>
+        <span className="font-medium">{displayLocale.toUpperCase()}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-4 w-4"
@@ -71,7 +94,7 @@ export default function ClientLanguageSwitcher({ currentLocale }: LanguageSwitch
           <button
             onClick={() => changeLanguage('es')}
             className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${
-              locale === 'es' ? 'bg-gray-100' : ''
+              displayLocale === 'es' ? 'bg-gray-100' : ''
             }`}
           >
             ES
@@ -79,7 +102,7 @@ export default function ClientLanguageSwitcher({ currentLocale }: LanguageSwitch
           <button
             onClick={() => changeLanguage('en')}
             className={`block w-full text-left px-4 py-2 hover:bg-gray-100 ${
-              locale === 'en' ? 'bg-gray-100' : ''
+              displayLocale === 'en' ? 'bg-gray-100' : ''
             }`}
           >
             EN
