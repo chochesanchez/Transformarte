@@ -182,3 +182,15 @@ model UserSession {
 
   @@map("user_sessions")
 }
+
+/// Contact messages sent from the website contact form
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("contact_messages")
+}

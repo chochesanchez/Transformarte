@@ -13,6 +13,26 @@ const content = {
     visionText: "We envision a society where art serves as a powerful tool for mental health awareness, prevention, and healing. Through creative expression, we aim to break stigmas and open dialogue about mental health issues affecting young people.",
     missionTitle: "Our Mission",
     missionText: "To promote mental health awareness among young people through art, creating platforms for creative expression, education, and community engagement across seven cities in Mexico.",
+    populationTitle: "Target Population",
+    population: [
+      "Rotarians District 4130 and their families",
+      "Youth 15-19 years old and their families",
+      "Mental health professionals",
+      "Community professionals",
+      "Sponsor companies"
+    ],
+    servicesTitle: "Mental Health Service Offerings",
+    services: [
+      "Online mental health check-up.",
+      "Monthly webinars on mental health topics.",
+      "TransformArte Workshop (CPCCM)",
+      "Psychological first aid workshop.",
+      "Certification in psychological first aid.",
+      "Psychological helpline.",
+      "Mentorship program (45 Rotarians).",
+      "Burnout workshop (Companies).",
+      "NOM-035 for companies."
+    ],
     objectivesTitle: "Objectives",
     objectives: [
       "Create spaces for artistic expression that foster mental health awareness",
@@ -50,6 +70,26 @@ const content = {
     visionText: "Visualizamos una sociedad donde el arte sirva como una poderosa herramienta para la concienciación, prevención y sanación de la salud mental. A través de la expresión creativa, buscamos romper estigmas y abrir el diálogo sobre problemas de salud mental que afectan a los jóvenes.",
     missionTitle: "Nuestra Misión",
     missionText: "Promover la concienciación sobre la salud mental entre los jóvenes a través del arte, creando plataformas para la expresión creativa, la educación y la participación comunitaria en siete ciudades de México.",
+    populationTitle: "Población Meta",
+    population: [
+      "Rotarios distrito 4130 y sus familias",
+      "Jóvenes 15-19 años y sus familias",
+      "Profesionales de la salud mental",
+      "Profesionales de la comunidad",
+      "Empresas patrocinadoras"
+    ],
+    servicesTitle: "Oferta de Servicios a Favor de la Salud Mental",
+    services: [
+      "Check up de salud mental en línea.",
+      "Webinars mensuales sobre temas de salud mental.",
+      "Taller TransformArte (CPCCM)",
+      "Taller de primeros auxilios psicológicos.",
+      "Certificación en primeros auxilios psicológicos.",
+      "Línea de atención psicológica.",
+      "Programa de mentores (45 rotarios).",
+      "Taller Burnout (Empresas).",
+      "NOM-035 para las empresas."
+    ],
     objectivesTitle: "Objetivos",
     objectives: [
       "Crear espacios de expresión artística que fomenten la conciencia sobre la salud mental",
@@ -116,6 +156,26 @@ export default async function ProjectPage({
           <ul className="list-disc pl-6 space-y-3 text-gray-700">
             {t.objectives.map((objective, index) => (
               <li key={index} className="text-lg">{objective}</li>
+            ))}
+          </ul>
+        </div>
+        
+        {/* Target Population Section */}
+        <div className="mb-16 mt-12">
+          <h3 className="text-2xl font-semibold text-primary mb-6">{t.populationTitle}</h3>
+          <ol className="list-decimal pl-6 space-y-3 text-gray-700">
+            {t.population.map((item, index) => (
+              <li key={index} className="text-lg">{item}</li>
+            ))}
+          </ol>
+        </div>
+
+        {/* Services Section */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-semibold text-primary mb-6">{t.servicesTitle}</h3>
+          <ul className="list-disc pl-6 space-y-3 text-gray-700">
+            {t.services.map((service, index) => (
+              <li key={index} className="text-lg">{service}</li>
             ))}
           </ul>
         </div>

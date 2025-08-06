@@ -10,13 +10,13 @@ interface ConfirmationPopupProps {
 
 const content = {
   en: {
-    title: "Thank you for your donation!",
-    message: "Your submission will be reviewed and confirmed within 24-48 hours. For more information, please contact us.",
+    title: "Artwork submitted!",
+    message: "Your artwork will be reviewed for admission. Thank you for supporting TransformArte.",
     button: "Close"
   },
   es: {
-    title: "¡Gracias por tu donación!",
-    message: "Tu envío será revisado y confirmado en las próximas 24-48 horas. Para más información, contáctanos.",
+    title: "¡Obra enviada!",
+    message: "Tu obra será revisada para su admisión. Gracias por apoyar a TransformArte.",
     button: "Cerrar"
   }
 };

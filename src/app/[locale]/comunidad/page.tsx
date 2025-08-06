@@ -1,7 +1,31 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import CreatePostButton from './CreatePostButton';
 import CreatePostForm from './CreatePostForm';
+
+interface User {
+  id: number;
+  email: string;
+  passwordHash: string;
+  fullName: string;
+  role: string;
+  isActive: boolean;
+  createdAt: Date;
+  lastLogin: Date | null;
+}
+
+interface ForumPost {
+  id: number;
+  userId: number;
+  title: string;
+  content: string;
+  imageUrl: string | null;
+  isHidden: boolean;
+  createdAt: Date;
+  updatedAt: Date | null;
+  user: User;
+}
 
 // Static content for the page
 const content = {
@@ -30,7 +54,9 @@ const content = {
         button: "Publish Post"
       },
       recentPosts: "Recent Posts",
-      noPosts: "Be the first to share your experience!"
+      noPosts: "Be the first to share your experience!",
+      postedBy: "Posted by",
+      readMore: "Read More"
     }
   },
   es: {
@@ -58,10 +84,35 @@ const content = {
         button: "Publicar"
       },
       recentPosts: "Publicaciones Recientes",
-      noPosts: "¡Sé el primero en compartir tu experiencia!"
+      noPosts: "¡Sé el primero en compartir tu experiencia!",
+      postedBy: "Publicado por",
+      readMore: "Leer Más"
     }
   }
 };
+
+async function getForumPosts(): Promise<ForumPost[]> {
+  try {
+    const { PrismaClient } = await import('@prisma/client');
+    const prisma = new PrismaClient();
+    return await prisma.forumPost.findMany({
+      where: {
+        isHidden: false
+      },
+      include: {
+        user: true
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching forum posts:', error);
+    return [];
+  }
+}
+
+export const dynamic = 'force-dynamic';
 
 export default async function CommunityPage({
   params,
@@ -71,6 +122,10 @@ export default async function CommunityPage({
   const resolvedParams = await params;
   const locale = resolvedParams.locale || 'es';
   const t = content[locale === 'en' ? 'en' : 'es'];
+  
+  const posts = await getForumPosts();
+
+  const showForum = false; // Temporarily disable forum while keeping code intact
 
   return (
     <div className="container mx-auto">
@@ -98,6 +153,8 @@ export default async function CommunityPage({
           </div>
         </div>
         
+        {showForum ? (
+          /* Forum Section (currently disabled) */
         <div className="bg-gray-50 p-6 rounded-lg shadow mb-8">
           <h2 className="text-2xl font-semibold mb-4">{t.forum.title}</h2>
           <p className="text-gray-600 mb-8">{t.forum.description}</p>
@@ -106,11 +163,54 @@ export default async function CommunityPage({
 
           <div>
             <h3 className="text-xl font-semibold mb-4">{t.forum.recentPosts}</h3>
+              {posts.length === 0 ? (
             <div className="text-center text-gray-500">
               {t.forum.noPosts}
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {posts.map((post: ForumPost) => (
+                    <div key={post.id} className="bg-white p-6 rounded-lg shadow">
+                      <h4 className="text-xl font-semibold mb-2">{post.title}</h4>
+                      <p className="text-gray-600 mb-2">
+                        {t.forum.postedBy} {post.user.fullName}
+                      </p>
+                      <div className="prose max-w-none mb-4">
+                        {post.content.length > 200 ? (
+                          <>
+                            {post.content.slice(0, 200)}...
+                            <button className="text-primary font-medium ml-2">
+                              {t.forum.readMore}
+                            </button>
+                          </>
+                        ) : (
+                          post.content
+                        )}
+                      </div>
+                      {post.imageUrl && (
+                        <div className="relative w-full h-48 mt-4">
+                          <Image
+                            src={post.imageUrl}
+                            alt={post.title}
+                            fill
+                            className="object-cover rounded-lg"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
+        ) : (
+          <div className="bg-gray-50 p-6 rounded-lg shadow mb-8 text-center">
+            <h2 className="text-2xl font-semibold mb-4">{t.forum.title}</h2>
+            <p className="text-gray-600 mb-4">{t.forum.description}</p>
+            <p className="text-lg font-semibold text-gray-700">{locale === 'en' ? 'Soon…' : 'Próximamente'}</p>
+            <p className="text-gray-500 mt-2">{locale === 'en' ? 'Share photos of your experience once the forum is open.' : 'Comparte fotos de tu experiencia una vez que el foro esté disponible.'}</p>
         </div>
+        )}
       </section>
     </div>
   );

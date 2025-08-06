@@ -1,5 +1,8 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 // Static content for the page
 const content = {
@@ -19,10 +22,7 @@ const content = {
       paypal: "Donate with PayPal",
       bank: {
         title: "Bank Transfer",
-        bank: "Bank: Santander",
-        number: "Number: 5471 4601 1157 4997",
-        name: "Name: José Manuel Sánchez Aguilar",
-        beneficiary: "Beneficiary: TransformArte Foundation"
+        details: `IBC Bank\nAccount Number: 2 11 7 5 5 5 9 9 3\n\nTransfer\nTransformArte / IBC Bank\nClub Rotario Monterrey Metropolitano AC\nIBC Bank / Laredo Texas\nAccount Number: 2 11 7 5 5 5 9 9 3`
       }
     },
     newsletter: {
@@ -48,10 +48,7 @@ const content = {
       paypal: "Donar con PayPal",
       bank: {
         title: "Transferencia Bancaria",
-        bank: "Banco: Santander",
-        number: "Numero: 5471 4601 1157 4997",
-        name: "Nombre: José Manuel Sánchez Aguilar",
-        beneficiary: "Beneficiario: Fundación TransformArte A.C."
+        details: `Banco IBC\nNúmero de Cuenta: 2 11 7 5 5 5 9 9 3\n\nTransferencia\nTransformArte / Banco IBC\nClub Rotario Monterrey Metropolitano AC\nIBC Bank / Laredo Texas\nNúmero de Cuenta: 2 11 7 5 5 5 9 9 3`
       }
     },
     newsletter: {
@@ -63,14 +60,10 @@ const content = {
   }
 };
 
-export default async function ContactPage({
-  params,
-}: {
-  params: { locale: string }
-}) {
-  // Await params properly
-  const resolvedParams = await params;
-  const locale = resolvedParams.locale || 'es';
+export default function ContactPage() {
+  const params = useParams();
+  const localeParam = params?.locale as string | undefined;
+  const locale = localeParam && (localeParam === 'en' || localeParam === 'es') ? localeParam : 'es';
   const t = content[locale === 'en' ? 'en' : 'es'];
 
   return (
@@ -80,22 +73,49 @@ export default async function ContactPage({
         <p className="mb-6 text-gray-700">{t.description}</p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <form className="bg-gray-50 p-6 rounded-lg shadow space-y-4">
+          <form className="bg-gray-50 p-6 rounded-lg shadow space-y-4" onSubmit={async (e)=>{
+            e.preventDefault();
+            const form = e.currentTarget;
+            const formData = new FormData(form);
+            const payload = {
+              name: formData.get('name') as string,
+              email: formData.get('email') as string,
+              subject: formData.get('subject') as string,
+              message: formData.get('message') as string
+            };
+
+            try {
+              const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+              });
+              if(res.ok){
+                alert(locale==='en' ? 'Message sent' : 'Mensaje enviado');
+                form.reset();
+              } else {
+                alert('Error');
+              }
+            } catch(err){
+              console.error(err);
+              alert('Error');
+            }
+          }}>
             <div>
               <label className="block font-semibold mb-1">{t.form.name}</label>
-              <input type="text" className="w-full border rounded px-3 py-2" required />
+              <input name="name" type="text" className="w-full border rounded px-3 py-2" required />
             </div>
             <div>
               <label className="block font-semibold mb-1">{t.form.email}</label>
-              <input type="email" className="w-full border rounded px-3 py-2" required />
+              <input name="email" type="email" className="w-full border rounded px-3 py-2" required />
             </div>
             <div>
               <label className="block font-semibold mb-1">{t.form.subject}</label>
-              <input type="text" className="w-full border rounded px-3 py-2" required />
+              <input name="subject" type="text" className="w-full border rounded px-3 py-2" required />
             </div>
             <div>
               <label className="block font-semibold mb-1">{t.form.message}</label>
-              <textarea className="w-full border rounded px-3 py-2" rows={5} required />
+              <textarea name="message" className="w-full border rounded px-3 py-2" rows={5} required />
             </div>
             <button type="submit" className="bg-primary text-white px-6 py-2 rounded-full font-semibold w-full">
               {t.form.button}
@@ -119,12 +139,9 @@ export default async function ContactPage({
                 </div>
                 <div>
                   <h3 className="font-semibold mb-1">{t.donations.bank.title}</h3>
-                  <p className="text-sm text-gray-600">
-                    {t.donations.bank.bank}<br />
-                    {t.donations.bank.number}<br />
-                    {t.donations.bank.name}<br />
-                    {t.donations.bank.beneficiary}
-                  </p>
+                  <pre className="text-sm text-gray-600 whitespace-pre-wrap font-sans">
+                    {t.donations.bank.details}
+                  </pre>
                 </div>
               </div>
             </div>

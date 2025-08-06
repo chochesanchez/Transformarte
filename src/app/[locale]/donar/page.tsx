@@ -52,9 +52,41 @@ export default function DonatePage({
   const locale = params.locale || 'es';
   const t = content[locale === 'en' ? 'en' : 'es'];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsPopupOpen(true);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const payload = {
+      fullName: formData.get('fullName') as string,
+      email: formData.get('email') as string,
+      phone: formData.get('phone') as string,
+      title: formData.get('title') as string,
+      technique: formData.get('technique') as string,
+      dimensions: formData.get('dimensions') as string,
+      description: formData.get('description') as string,
+      marketPrice: Number(formData.get('marketPrice')),
+      startingPrice: Number(formData.get('startingPrice'))
+    };
+
+    try {
+      const res = await fetch('/api/artworks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        form.reset();
+        setIsPopupOpen(true);
+      } else {
+        alert('Error submitting artwork');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Error submitting artwork');
+    }
   };
 
   return (
@@ -72,7 +104,7 @@ export default function DonatePage({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-gray-700 mb-2">{t.nameLabel}</label>
-                <input
+                <input name="fullName"
                   type="text"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                   required
@@ -81,7 +113,7 @@ export default function DonatePage({
               
               <div>
                 <label className="block text-gray-700 mb-2">{t.emailLabel}</label>
-                <input
+                <input name="email"
                   type="email"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                   required
@@ -90,7 +122,7 @@ export default function DonatePage({
               
               <div>
                 <label className="block text-gray-700 mb-2">{t.phoneLabel}</label>
-                <input
+                <input name="phone"
                   type="tel"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                   required
@@ -99,7 +131,7 @@ export default function DonatePage({
               
               <div>
                 <label className="block text-gray-700 mb-2">{t.artworkTitleLabel}</label>
-                <input
+                <input name="title"
                   type="text"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                   required
@@ -108,7 +140,7 @@ export default function DonatePage({
               
               <div>
                 <label className="block text-gray-700 mb-2">{t.techniqueLabel}</label>
-                <input
+                <input name="technique"
                   type="text"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                   required
@@ -117,7 +149,7 @@ export default function DonatePage({
               
               <div>
                 <label className="block text-gray-700 mb-2">{t.dimensionsLabel}</label>
-                <input
+                <input name="dimensions"
                   type="text"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                   required
@@ -128,7 +160,7 @@ export default function DonatePage({
                 <label className="block text-gray-700 mb-2">{t.marketPriceLabel}</label>
                 <div className="relative">
                   <span className="absolute left-3 top-2 text-gray-500">$</span>
-                  <input
+                  <input name="marketPrice"
                     type="number"
                     min="0"
                     step="1"
@@ -142,7 +174,7 @@ export default function DonatePage({
                 <label className="block text-gray-700 mb-2">{t.startingPriceLabel}</label>
                 <div className="relative">
                   <span className="absolute left-3 top-2 text-gray-500">$</span>
-                  <input
+                  <input name="startingPrice"
                     type="number"
                     min="0"
                     step="1"
@@ -155,7 +187,7 @@ export default function DonatePage({
             
             <div>
               <label className="block text-gray-700 mb-2">{t.descriptionLabel}</label>
-              <textarea
+              <textarea name="description"
                 rows={4}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                 required

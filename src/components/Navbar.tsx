@@ -49,7 +49,7 @@ export default function Navbar() {
               className="rounded-md"
               priority
             />
-            <span className="font-bold text-xl text-primary ml-2">TransformArte</span>
+            <span className="font-bold text-xl text-primary ml-2 hidden sm:inline">TransformArte</span>
           </div>
         </Link>
       </div>

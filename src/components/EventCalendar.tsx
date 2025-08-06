@@ -200,12 +200,12 @@ export default function EventCalendar({ locale = 'es' }: EventCalendarProps) {
               </p>
             </div>
           </div>
-          <Link
+          {/* <Link
             href={`/${locale}/comunidad`}
             className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition-colors"
           >
             {t.register}
-          </Link>
+          </Link> */}
         </div>
       ))}
     </div>

@@ -4,7 +4,7 @@ import Image from 'next/image';
 // Static content for the page
 const content = {
   en: {
-    title: "About Us: Rotary District 4130",
+    title: "Club Rotario Monterrey Metropolitano",
     subtitle: "Committed to service and art as a tool for change",
     teamTitle: "Project Team",
     teamDescription: "The Rotary International District 4130 team is composed of dedicated leaders who support our clubs and members. With vast experience and passion for service, they coordinate initiatives to ensure a positive impact in communities. Together, they foster fellowship, innovation, and commitment to Rotary values, strengthening our network and expanding our reach to address social, economic, and environmental challenges.",
@@ -16,7 +16,7 @@ const content = {
     togetherStatement: "When we combine our resources, talents, and passion, we can do much more than we could do alone. By joining with other Rotary partners and community members, we amplify our impact."
   },
   es: {
-    title: "Quiénes Somos: Distrito Rotario 4130",
+    title: "Club Rotario Monterrey Metropolitano",
     subtitle: "Comprometidos con el servicio y el arte como herramienta de cambio",
     teamTitle: "Equipo del Proyecto",
     teamDescription: "El equipo del Distrito 4130 de Rotary International está compuesto por líderes dedicados que apoyan a nuestros clubes y miembros. Con vasta experiencia y pasión por el servicio, coordinan iniciativas para asegurar un impacto positivo en las comunidades. Juntos, fomentan el compañerismo, la innovación y el compromiso con los valores de Rotary, fortaleciendo nuestra red y ampliando nuestro alcance para enfrentar desafíos sociales, económicos y ambientales.",
@@ -42,7 +42,7 @@ export default async function AboutPage({
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-primary mb-4">{t.title}</h1>
+        <h1 className="text-4xl font-bold text-primary mb-6 text-center">{t.title}</h1>
         <h2 className="text-2xl text-secondary mb-12">{t.subtitle}</h2>
         
         {/* Team Section */}

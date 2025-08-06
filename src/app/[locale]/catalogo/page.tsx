@@ -1,17 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
+import prisma from '@/lib/prisma';
+import { Artwork } from '@prisma/client';
 
-interface Artwork {
-  id: string;
-  title: string;
-  artist: string;
-  technique: string;
-  dimensions: string;
-  imageUrl: string;
-  marketPrice: number;
-  startingPrice: number;
-  category: 'painting' | 'sculpture' | 'photography' | 'digital';
-}
+
 
 // Static content for the page
 const content = {
@@ -91,8 +83,11 @@ const content = {
   }
 };
 
-// This will be replaced with actual data from your database
-const donations: Artwork[] = [];
+// Fetch artworks from the database
+const donations: Artwork[] = await prisma.artwork.findMany({
+  where: { status: { in: ['pending', 'approved'] } },
+  orderBy: { createdAt: 'desc' }
+});
 
 export default async function CatalogPage({
   params,
@@ -191,7 +186,7 @@ export default async function CatalogPage({
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-2">{artwork.title}</h3>
-                  <p className="text-gray-600 mb-1">{artwork.artist}</p>
+                  <p className="text-gray-600 mb-1">{artwork.artistName}</p>
                   <p className="text-gray-500 mb-1">{artwork.technique}</p>
                   <p className="text-gray-500 mb-3">{artwork.dimensions}</p>
                   <div className="space-y-1 text-sm">

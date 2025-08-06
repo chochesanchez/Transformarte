@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 // Define all supported locales
 export const locales = ['en', 'es'] as const;
 export type Locale = (typeof locales)[number];
-export const defaultLocale: Locale = 'es';
+export const defaultLocale: Locale = 'en';
 
 export default getRequestConfig(async ({ locale }) => {
   // Ensure locale is a string and validate it
