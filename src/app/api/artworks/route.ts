@@ -5,13 +5,19 @@ import { z } from 'zod';
 const ArtworkSchema = z.object({
   fullName: z.string().min(1),
   email: z.string().email(),
-  phone: z.string().optional().nullable(),
+  phone: z.string().optional().nullable().or(z.literal('')),
   title: z.string().min(1),
   technique: z.string().min(1),
   dimensions: z.string().optional().nullable(),
   description: z.string().optional().nullable(),
-  marketPrice: z.number().nonnegative(),
-  startingPrice: z.number().nonnegative()
+  marketPrice: z.preprocess((val) => {
+    if (typeof val === 'string') return Number(val.replace(/[,\s]/g, ''));
+    return val;
+  }, z.number().nonnegative()),
+  startingPrice: z.preprocess((val) => {
+    if (typeof val === 'string') return Number(val.replace(/[,\s]/g, ''));
+    return val;
+  }, z.number().nonnegative())
 });
 
 export async function POST(request: Request) {

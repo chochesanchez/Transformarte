@@ -81,7 +81,8 @@ export default function DonatePage({
         form.reset();
         setIsPopupOpen(true);
       } else {
-        alert('Error submitting artwork');
+        const { error } = await res.json().catch(() => ({ error: 'Unknown error' }));
+        alert(error || 'Error submitting artwork');
       }
     } catch (error) {
       console.error(error);
@@ -163,7 +164,7 @@ export default function DonatePage({
                   <input name="marketPrice"
                     type="number"
                     min="0"
-                    step="1"
+                    step="0.01"
                     className="w-full pl-8 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                     required
                   />
@@ -177,7 +178,7 @@ export default function DonatePage({
                   <input name="startingPrice"
                     type="number"
                     min="0"
-                    step="1"
+                    step="0.01"
                     className="w-full pl-8 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                     required
                   />
