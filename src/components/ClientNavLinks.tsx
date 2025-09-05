@@ -14,6 +14,8 @@ interface ClientNavLinksProps {
     catalog: string;
     community: string;
     contact: string;
+    login?: string;
+    signup?: string;
   };
 }
 
@@ -47,6 +49,9 @@ export default function ClientNavLinks({ locale, translations }: ClientNavLinksP
       </Link>
       <Link href={`/${locale}/contacto`} className={`hover:text-primary transition-colors ${isActive('/contacto')}`}>
         {translations.contact}
+      </Link>
+      <Link href={`/${locale}/auth`} className="hover:text-primary transition-colors text-gray-700">
+        {translations.login || (locale === 'en' ? 'Login / Signup' : 'Entrar / Crear cuenta')}
       </Link>
     </>
   );

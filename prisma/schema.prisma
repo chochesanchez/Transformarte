@@ -11,6 +11,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -193,4 +194,18 @@ model ContactMessage {
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("contact_messages")
+}
+
+/// Leads captured from the website with optional file upload
+model Lead {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String?
+  filePath  String?
+  fileMime  String?
+  fileSize  Int?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("leads")
 }

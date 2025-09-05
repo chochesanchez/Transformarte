@@ -1,5 +1,7 @@
-import React from 'react';
+"use client";
+import React, { useState } from 'react';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 const content = {
   en: {
@@ -58,6 +60,42 @@ export default function AuthPage({
   params: { locale: string };
 }) {
   const t = content[locale === 'en' ? 'en' : 'es'];
+  const [signup, setSignup] = useState({ displayName: '', email: '', password: '', confirm: '' });
+  const [login, setLogin] = useState({ email: '', password: '' });
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (signup.password !== signup.confirm) {
+      toast.error(locale === 'en' ? 'Passwords do not match' : 'Las contraseñas no coinciden');
+      return;
+    }
+    const res = await fetch('/api/auth?action=signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: signup.email, password: signup.password, displayName: signup.displayName })
+    });
+    const data = await res.json();
+    if (res.ok && data.ok) {
+      toast.success(locale === 'en' ? 'Account created' : 'Cuenta creada');
+    } else {
+      toast.error(data.error || 'Error');
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const res = await fetch('/api/auth?action=login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: login.email, password: login.password })
+    });
+    const data = await res.json();
+    if (res.ok && data.ok) {
+      toast.success(locale === 'en' ? 'Logged in' : 'Sesión iniciada');
+    } else {
+      toast.error(data.error || 'Error');
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -70,12 +108,14 @@ export default function AuthPage({
             <h2 className="text-2xl font-semibold mb-4">{t.register.title}</h2>
             <p className="text-gray-600 mb-6">{t.register.description}</p>
             
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSignup}>
               <div>
                 <label className="block text-gray-700 mb-2">{t.register.form.name}</label>
                 <input
                   type="text"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  value={signup.displayName}
+                  onChange={(e)=>setSignup(s=>({ ...s, displayName: e.target.value }))}
                   required
                 />
               </div>
@@ -84,6 +124,8 @@ export default function AuthPage({
                 <input
                   type="email"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  value={signup.email}
+                  onChange={(e)=>setSignup(s=>({ ...s, email: e.target.value }))}
                   required
                 />
               </div>
@@ -92,6 +134,8 @@ export default function AuthPage({
                 <input
                   type="password"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  value={signup.password}
+                  onChange={(e)=>setSignup(s=>({ ...s, password: e.target.value }))}
                   required
                 />
               </div>
@@ -100,6 +144,8 @@ export default function AuthPage({
                 <input
                   type="password"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  value={signup.confirm}
+                  onChange={(e)=>setSignup(s=>({ ...s, confirm: e.target.value }))}
                   required
                 />
               </div>
@@ -117,12 +163,14 @@ export default function AuthPage({
             <h2 className="text-2xl font-semibold mb-4">{t.login.title}</h2>
             <p className="text-gray-600 mb-6">{t.login.description}</p>
             
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleLogin}>
               <div>
                 <label className="block text-gray-700 mb-2">{t.login.form.email}</label>
                 <input
                   type="email"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  value={login.email}
+                  onChange={(e)=>setLogin(s=>({ ...s, email: e.target.value }))}
                   required
                 />
               </div>
@@ -131,6 +179,8 @@ export default function AuthPage({
                 <input
                   type="password"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  value={login.password}
+                  onChange={(e)=>setLogin(s=>({ ...s, password: e.target.value }))}
                   required
                 />
               </div>
