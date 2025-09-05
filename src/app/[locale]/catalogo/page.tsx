@@ -88,11 +88,7 @@ const content = {
   }
 };
 
-// Fetch artworks from the database
-const donations: Artwork[] = await prisma.artwork.findMany({
-  where: { status: { in: ['pending', 'approved'] } },
-  orderBy: { createdAt: 'desc' }
-});
+// Query runs at request time inside the component to avoid build-time DB access
 
 export default async function CatalogPage({
   params,
@@ -102,6 +98,11 @@ export default async function CatalogPage({
   const resolvedParams = await params;
   const locale = resolvedParams.locale || 'es';
   const t = content[locale === 'en' ? 'en' : 'es'];
+
+  const donations: Artwork[] = await prisma.artwork.findMany({
+    where: { status: { in: ['pending', 'approved'] } },
+    orderBy: { createdAt: 'desc' }
+  });
 
   return (
     <div className="container mx-auto px-4 py-8">
