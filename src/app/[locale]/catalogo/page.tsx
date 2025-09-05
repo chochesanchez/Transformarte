@@ -3,6 +3,11 @@ import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import { Artwork } from '@prisma/client';
 
+// Avoid pre-rendering this page at build time so the build does not
+// contact the database. Always render on the server at request time.
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 
 
 // Static content for the page

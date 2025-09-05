@@ -90,6 +90,9 @@ export default function DonatePage({
     }
   };
 
+  // Disable static rendering; we do client-only work here anyway
+  // and avoid any accidental build-time fetches
+  
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
