@@ -23,23 +23,21 @@ const ArtworkSchema = z.object({
 
 export async function POST(request: Request) {
   try {
+    // Login is optional. If present, we may use the user's info as defaults.
     const authUser = await getAuthUser(request);
-    if (!authUser) {
-      return NextResponse.json({ success: false, error: 'Authentication required' }, { status: 401 });
-    }
     const body = await request.json();
     const data = ArtworkSchema.parse(body);
 
     const artwork = await prisma.artwork.create({
       data: {
         title: data.title,
-        artistName: data.fullName || authUser.fullName,
+        artistName: data.fullName || authUser?.fullName || '',
         technique: data.technique,
         dimensions: data.dimensions ?? '',
         description: data.description ?? '',
         marketPrice: data.marketPrice,
         startingPrice: data.startingPrice,
-        donorEmail: data.email || authUser.email,
+        donorEmail: data.email || authUser?.email || '',
         donorPhone: data.phone ?? '',
         imageUrl: '', // TODO: upload to Cloudinary when ready
         status: 'pending'
