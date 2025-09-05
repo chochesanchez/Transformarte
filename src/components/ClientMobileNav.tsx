@@ -95,6 +95,13 @@ export default function ClientMobileNav({ currentLocale, translations }: MobileN
             >
               {translations.contact}
             </Link>
+            <Link 
+              href={`/${locale}/auth`}
+              className={`hover:text-primary transition-colors text-gray-700`}
+              onClick={() => setIsOpen(false)}
+            >
+              {locale === 'en' ? 'Login / Signup' : 'Entrar / Crear cuenta'}
+            </Link>
           </nav>
         </div>
       )}
