@@ -40,27 +40,16 @@ export default function CreatePostForm({ labels }: CreatePostFormProps) {
 
     try {
       let imageUrl = '';
-      
-      // If there's an image, upload it first
+      // Upload to Supabase Storage via server route if present
       if (formData.image) {
-        const cloudName   = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME!;
-        const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!;
-        const uploadUrl   = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
-
-        const formDataImage = new FormData();
-        formDataImage.append('file', formData.image);
-        formDataImage.append('upload_preset', uploadPreset);
-
-        const uploadResponse = await fetch(
-          uploadUrl,
-          {
-            method: 'POST',
-            body: formDataImage
-          }
-        );
-
-        const uploadData = await uploadResponse.json();
-        imageUrl = uploadData.secure_url;
+        const fileForm = new FormData();
+        fileForm.append('file', formData.image);
+        const up = await fetch('/api/leads', { // reuse upload infra target bucket
+          method: 'POST',
+          body: fileForm
+        });
+        const upJson = await up.json();
+        if (up.ok && upJson.fileUrl) imageUrl = upJson.fileUrl;
       }
 
       // Create the forum post

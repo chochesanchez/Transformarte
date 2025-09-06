@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import prisma from '@/lib/prisma';
 import { getAuthUser } from '@/lib/auth';
 
 export async function POST(request: Request) {
-  const prisma = new PrismaClient();
   try {
     const authUser = await getAuthUser(request);
     if (!authUser) {
@@ -30,7 +29,5 @@ export async function POST(request: Request) {
       { success: false, error: 'Failed to create post' },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 } 
