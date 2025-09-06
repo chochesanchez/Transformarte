@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import supabase from '@/lib/supabase';
 import prisma from '@/lib/prisma';
 import { z } from 'zod';
 import { getAuthUser } from '@/lib/auth';
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
         startingPrice: data.startingPrice,
         donorEmail: data.email || authUser?.email || '',
         donorPhone: data.phone ?? '',
-        imageUrl: '', // TODO: upload to Cloudinary when ready
+        imageUrl: '',
         status: 'pending'
       }
     });
