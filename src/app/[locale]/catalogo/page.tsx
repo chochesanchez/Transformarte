@@ -98,11 +98,15 @@ export default async function CatalogPage({
   const resolvedParams = await params;
   const locale = resolvedParams.locale || 'es';
   const t = content[locale === 'en' ? 'en' : 'es'];
-
-  const donations: Artwork[] = await prisma.artwork.findMany({
-    where: { status: { in: ['pending', 'approved'] } },
-    orderBy: { createdAt: 'desc' }
-  });
+  let donations: Artwork[] = [];
+  try {
+    donations = await prisma.artwork.findMany({
+      where: { status: { in: ['pending', 'approved'] } },
+      orderBy: { createdAt: 'desc' }
+    });
+  } catch (e) {
+    console.error('Catalog DB error', e);
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -178,7 +182,7 @@ export default async function CatalogPage({
         </div>
         
         {/* Artwork Grid */}
-        {donations.length > 0 ? (
+        {donations && donations.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {donations.map((artwork) => (
               <div key={artwork.id} className="bg-white shadow-md rounded-lg overflow-hidden">

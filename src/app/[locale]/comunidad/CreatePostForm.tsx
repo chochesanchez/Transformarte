@@ -44,10 +44,7 @@ export default function CreatePostForm({ labels }: CreatePostFormProps) {
       if (formData.image) {
         const fileForm = new FormData();
         fileForm.append('file', formData.image);
-        const up = await fetch('/api/leads', { // reuse upload infra target bucket
-          method: 'POST',
-          body: fileForm
-        });
+        const up = await fetch('/api/upload', { method: 'POST', body: fileForm });
         const upJson = await up.json();
         if (up.ok && upJson.fileUrl) imageUrl = upJson.fileUrl;
       }
