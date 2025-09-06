@@ -6,10 +6,10 @@ import ConfirmationPopup from '@/components/ConfirmationPopup';
 // Static content for the page
 const content = {
   en: {
-    title: "Donate Your Artwork",
+    title: "Artworks",
     subtitle: "Join the initiative and transform lives through art",
     description: "Your artwork can make a difference in the lives of young people. By donating a piece, you're contributing to mental health awareness and prevention.",
-    formTitle: "Artwork Donation Form",
+    formTitle: "Donate Your Artwork",
     nameLabel: "Full Name",
     emailLabel: "Email",
     phoneLabel: "Phone",
@@ -24,10 +24,10 @@ const content = {
     submitButton: "Submit Donation"
   },
   es: {
-    title: "Dona tu Obra",
+    title: "Obras",
     subtitle: "Únete a la iniciativa y transforma vidas a través del arte",
     description: "Tu obra puede hacer una diferencia en la vida de los jóvenes. Al donar una pieza, estás contribuyendo a la concientización y prevención de la salud mental.",
-    formTitle: "Formulario de Donación de Obra",
+    formTitle: "Donar tu Obra",
     nameLabel: "Nombre Completo",
     emailLabel: "Correo Electrónico",
     phoneLabel: "Teléfono",

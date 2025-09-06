@@ -125,7 +125,7 @@ export default async function CommunityPage({
   
   const posts = await getForumPosts();
 
-  const showForum = false; // Temporarily disable forum while keeping code intact
+  const showForum = true;
 
   return (
     <div className="container mx-auto">

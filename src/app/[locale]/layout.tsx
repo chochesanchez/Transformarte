@@ -2,9 +2,7 @@ import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import { Toaster } from 'react-hot-toast';
+import AppChrome from '@/components/AppChrome';
 import { locales, type Locale } from '@/i18n';
 
 // Import message files directly
@@ -88,12 +86,7 @@ export default async function LocaleLayout({
       </head>
       <body className={`${inter.variable} font-sans bg-white`}>
         <NextIntlClientProvider locale={locale} messages={localeMessages}>
-          <Navbar />
-          <main className="min-h-screen pt-16">
-            {children}
-          </main>
-          <Footer />
-          <Toaster position="top-center" />
+          <AppChrome>{children}</AppChrome>
         </NextIntlClientProvider>
       </body>
     </html>
