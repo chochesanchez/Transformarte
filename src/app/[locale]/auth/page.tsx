@@ -97,112 +97,41 @@ export default function AuthPage({
     }
   };
 
+  const [mode, setMode] = useState<'login'|'signup'>('login');
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-4xl">
-        <div className="flex justify-center mb-8">
-          <img src="/logo.png" alt="TransformArte" className="h-12 w-12 rounded" />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Register Form */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-2xl font-semibold mb-2">{t.login.title}</h2>
-            <p className="text-gray-600 mb-6">{t.login.description}</p>
-            
-            <form className="space-y-4" onSubmit={handleLogin}>
-              <div>
-                <label className="block text-gray-700 mb-2">{t.login.form.email}</label>
-                <input
-                  type="email"
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                  value={login.email}
-                  onChange={(e)=>setLogin(s=>({ ...s, email: e.target.value }))}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 mb-2">{t.login.form.password}</label>
-                <input
-                  type="password"
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                  value={login.password}
-                  onChange={(e)=>setLogin(s=>({ ...s, password: e.target.value }))}
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-primary text-white px-6 py-2 rounded-md hover:bg-primary/90"
-              >
-                {t.login.form.button}
-              </button>
-            </form>
-            <p className="text-center text-sm text-gray-600 mt-4">
-              {locale === 'en' ? "Don't have an account?" : '¿No tienes cuenta?'}{' '}
-              <a href="#signup" className="text-primary font-medium">{locale === 'en' ? 'Sign up' : 'Crear cuenta'}</a>
-            </p>
+    <div className="min-h-screen flex items-center justify-center px-4 py-16">
+      <div className="w-full max-w-md">
+        <div className="flex flex-col items-center mb-8">
+          <img src="/logo.png" alt="TransformArte" className="h-16 w-16 rounded" />
+          <div className="mt-6 inline-flex rounded-full bg-gray-100 p-1">
+            <button onClick={()=>setMode('login')} className={`px-4 py-2 rounded-full text-sm font-medium ${mode==='login'?'bg-white shadow':''}`}>{t.login.title}</button>
+            <button onClick={()=>setMode('signup')} className={`px-4 py-2 rounded-full text-sm font-medium ${mode==='signup'?'bg-white shadow':''}`}>{t.register.title}</button>
           </div>
+        </div>
 
-          {/* Login Form */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 id="signup" className="text-2xl font-semibold mb-4">{t.register.title}</h2>
-            <p className="text-gray-600 mb-6">{t.register.description}</p>
-            
-            <form className="space-y-4" onSubmit={handleSignup}>
-              <div>
-                <label className="block text-gray-700 mb-2">{t.register.form.name}</label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                  value={signup.displayName}
-                  onChange={(e)=>setSignup(s=>({ ...s, displayName: e.target.value }))}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 mb-2">{t.register.form.email}</label>
-                <input
-                  type="email"
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                  value={signup.email}
-                  onChange={(e)=>setSignup(s=>({ ...s, email: e.target.value }))}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 mb-2">{t.register.form.password}</label>
-                <input
-                  type="password"
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                  value={signup.password}
-                  onChange={(e)=>setSignup(s=>({ ...s, password: e.target.value }))}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 mb-2">{t.register.form.confirmPassword}</label>
-                <input
-                  type="password"
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                  value={signup.confirm}
-                  onChange={(e)=>setSignup(s=>({ ...s, confirm: e.target.value }))}
-                  required
-                />
-              </div>
-              <div className="flex justify-between items-center">
-                <button
-                  type="submit"
-                  className="bg-primary text-white px-6 py-2 rounded-md hover:bg-primary/90"
-                >
-                  {t.register.form.button}
-                </button>
-                <Link href="#" className="text-sm text-primary hover:underline">
-                  {t.login.form.forgotPassword}
-                </Link>
-              </div>
+        {mode==='login' ? (
+          <div className="bg-white rounded-xl shadow p-6">
+            <p className="text-gray-600 mb-6 text-sm">{t.login.description}</p>
+            <form className="space-y-4" onSubmit={handleLogin}>
+              <input type="email" placeholder={t.login.form.email} className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary" value={login.email} onChange={(e)=>setLogin(s=>({ ...s, email: e.target.value }))} required />
+              <input type="password" placeholder={t.login.form.password} className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary" value={login.password} onChange={(e)=>setLogin(s=>({ ...s, password: e.target.value }))} required />
+              <button type="submit" className="w-full bg-primary text-white px-6 py-3 rounded-md hover:bg-primary/90">{t.login.form.button}</button>
             </form>
+            <p className="text-center text-sm text-gray-600 mt-4">{locale==='en'?"Don't have an account?":"¿No tienes cuenta?"} <button onClick={()=>setMode('signup')} className="text-primary font-medium">{locale==='en'?'Sign up':'Crear cuenta'}</button></p>
           </div>
-        </div>
+        ) : (
+          <div className="bg-white rounded-xl shadow p-6">
+            <p className="text-gray-600 mb-6 text-sm">{t.register.description}</p>
+            <form className="space-y-4" onSubmit={handleSignup}>
+              <input type="text" placeholder={t.register.form.name} className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary" value={signup.displayName} onChange={(e)=>setSignup(s=>({ ...s, displayName: e.target.value }))} required />
+              <input type="email" placeholder={t.register.form.email} className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary" value={signup.email} onChange={(e)=>setSignup(s=>({ ...s, email: e.target.value }))} required />
+              <input type="password" placeholder={t.register.form.password} className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary" value={signup.password} onChange={(e)=>setSignup(s=>({ ...s, password: e.target.value }))} required />
+              <input type="password" placeholder={t.register.form.confirmPassword} className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary" value={signup.confirm} onChange={(e)=>setSignup(s=>({ ...s, confirm: e.target.value }))} required />
+              <button type="submit" className="w-full bg-primary text-white px-6 py-3 rounded-md hover:bg-primary/90">{t.register.form.button}</button>
+          </form>
+          <p className="text-center text-sm text-gray-600 mt-4">{locale==='en'?'Already have an account?':'¿Ya tienes cuenta?'} <button onClick={()=>setMode('login')} className="text-primary font-medium">{t.login.title}</button></p>
+          </div>
+        )}
       </div>
     </div>
   );

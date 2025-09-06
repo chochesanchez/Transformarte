@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     try {
       const body = await request.json();
       const data = SignupSchema.parse(body);
-      const existing = await prisma.user.findUnique({ where: { email: data.email } });
+      const existing = await prisma.user.findUnique({ where: { email: data.email } }).catch(()=>null);
       if (existing) return NextResponse.json({ ok: false, error: 'Email already in use' }, { status: 400 });
       const passwordHash = await hashPassword(data.password);
       const user = await prisma.user.create({ data: { email: data.email, passwordHash, fullName: data.displayName } });
