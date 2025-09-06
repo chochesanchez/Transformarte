@@ -1,7 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 
 // Create Prisma Client with logging
+const datasourceUrl = process.env.DIRECT_URL || process.env.DATABASE_URL;
+
 const prisma = new PrismaClient({
+  datasources: {
+    db: { url: datasourceUrl }
+  },
   log: [
     { level: 'query', emit: 'event' },
     { level: 'error', emit: 'stdout' },
