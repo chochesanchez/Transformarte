@@ -3,10 +3,6 @@ const withNextIntl = require('next-intl/plugin')(
   './src/i18n.ts'
 );
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
-
 const nextConfig = {
   reactStrictMode: true,
   // Ignore TypeScript errors during build
@@ -70,5 +66,5 @@ const nextConfig = {
   outputFileTracingRoot: __dirname
 };
 
-// Apply multiple plugins
-module.exports = withBundleAnalyzer(withNextIntl(nextConfig)); 
+// Apply plugin
+module.exports = withNextIntl(nextConfig); 
