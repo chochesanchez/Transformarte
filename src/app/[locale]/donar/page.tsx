@@ -21,6 +21,8 @@ const content = {
     imageHelp: "Upload a high-quality image of your artwork (JPG, PNG)",
     marketPriceLabel: "Market Price (MXN)",
     startingPriceLabel: "Starting Auction Price (MXN)",
+    yearLabel: "Year",
+    donationPercentageLabel: "Donation Percentage",
     submitButton: "Submit Donation"
   },
   es: {
@@ -39,6 +41,8 @@ const content = {
     imageHelp: "Sube una imagen de alta calidad de tu obra (JPG, PNG)",
     marketPriceLabel: "Precio Comercial (MXN)",
     startingPriceLabel: "Precio de Salida (MXN)",
+    yearLabel: "Año",
+    donationPercentageLabel: "Porcentaje de Donación",
     submitButton: "Enviar Donación"
   }
 };
@@ -46,19 +50,57 @@ const content = {
 export default function DonatePage({
   params,
 }: {
-  params: { locale: string }
+  params: { locale: string } | Promise<{ locale: string }>
 }) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const locale = params.locale || 'es';
+  // Support Next.js 15 async params shape locally
+  const [locale, setLocale] = useState<'en'|'es'>('es');
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const p: any = params && (params as any).then ? await (params as any) : params;
+        const loc = p?.locale === 'en' ? 'en' : 'es';
+        setLocale(loc);
+      } catch {
+        setLocale('es');
+      }
+    })();
+  }, [params]);
   const t = content[locale === 'en' ? 'en' : 'es'];
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    e.stopPropagation();
 
     const form = e.currentTarget;
+    // Use native constraint validation to catch invalid email, numbers, etc.
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
     const formData = new FormData(form);
+    // Optional image upload
+    let imageUrl: string | undefined = undefined;
+    const file = formData.get('image') as File | null;
+    if (file && typeof file !== 'string') {
+      const upForm = new FormData();
+      upForm.append('file', file);
+      upForm.append('context', 'artwork');
+      try {
+        const up = await fetch('/api/upload', { method: 'POST', body: upForm });
+        const upJson = await up.json();
+        if (up.ok && (upJson.publicUrl || upJson.fileUrl)) imageUrl = (upJson.publicUrl || upJson.fileUrl) as string;
+        else {
+          alert(`Image upload failed: ${upJson?.error || up.statusText}`);
+          return;
+        }
+      } catch (err:any) {
+        alert(`Image upload failed: ${err?.message || 'Network error'}`);
+        return;
+      }
+    }
 
-    const payload = {
+    const payload: any = {
       fullName: formData.get('fullName') as string,
       email: formData.get('email') as string,
       phone: formData.get('phone') as string,
@@ -66,9 +108,12 @@ export default function DonatePage({
       technique: formData.get('technique') as string,
       dimensions: formData.get('dimensions') as string,
       description: formData.get('description') as string,
+      year: Number(formData.get('year')) || undefined,
+      donationPercentage: Number(formData.get('donationPercentage')) || undefined,
       marketPrice: Number(formData.get('marketPrice')),
       startingPrice: Number(formData.get('startingPrice'))
     };
+    if (imageUrl) payload.imageUrl = imageUrl;
 
     try {
       const res = await fetch('/api/artworks', {
@@ -81,12 +126,11 @@ export default function DonatePage({
         form.reset();
         setIsPopupOpen(true);
       } else {
-        const { error } = await res.json().catch(() => ({ error: 'Unknown error' }));
-        alert(error || 'Error submitting artwork');
+        const j = await res.json().catch(()=>({ error:'Unknown error' }));
+        alert(`Failed to submit artwork: ${j?.error || res.statusText}`);
       }
-    } catch (error) {
-      console.error(error);
-      alert('Error submitting artwork');
+    } catch (error: any) {
+      alert(`Failed to submit artwork: ${error?.message || 'Network error'}`);
     }
   };
 
@@ -104,38 +148,41 @@ export default function DonatePage({
         <div className="bg-white shadow-md rounded-lg p-8 mt-8">
           <h3 className="text-2xl font-semibold mb-6">{t.formTitle}</h3>
           
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form id="donateArtworkForm" className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-gray-700 mb-2">{t.nameLabel}</label>
-                <input name="fullName"
+                <label htmlFor="fullName" className="block text-gray-700 mb-2">{t.nameLabel}</label>
+                <input id="fullName" name="fullName"
                   type="text"
+                  autoComplete="name"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                   required
                 />
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">{t.emailLabel}</label>
-                <input name="email"
+                <label htmlFor="email" className="block text-gray-700 mb-2">{t.emailLabel}</label>
+                <input id="email" name="email"
                   type="email"
+                  autoComplete="email"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                   required
                 />
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">{t.phoneLabel}</label>
-                <input name="phone"
+                <label htmlFor="phone" className="block text-gray-700 mb-2">{t.phoneLabel}</label>
+                <input id="phone" name="phone"
                   type="tel"
+                  autoComplete="tel"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                   required
                 />
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">{t.artworkTitleLabel}</label>
-                <input name="title"
+                <label htmlFor="title" className="block text-gray-700 mb-2">{t.artworkTitleLabel}</label>
+                <input id="title" name="title"
                   type="text"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                   required
@@ -143,17 +190,22 @@ export default function DonatePage({
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">{t.techniqueLabel}</label>
-                <input name="technique"
-                  type="text"
+                <label htmlFor="technique" className="block text-gray-700 mb-2">{t.techniqueLabel}</label>
+                <select id="technique" name="technique"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                   required
-                />
+                >
+                  <option value="painting">{locale==='en'?'Painting':'Pintura'}</option>
+                  <option value="sculpture">{locale==='en'?'Sculpture':'Escultura'}</option>
+                  <option value="photography">{locale==='en'?'Photography':'Fotografía'}</option>
+                  <option value="digital">{locale==='en'?'Digital Art':'Arte Digital'}</option>
+                  <option value="mixed">{locale==='en'?'Mixed Media':'Técnica Mixta'}</option>
+                </select>
               </div>
               
               <div>
-                <label className="block text-gray-700 mb-2">{t.dimensionsLabel}</label>
-                <input name="dimensions"
+                <label htmlFor="dimensions" className="block text-gray-700 mb-2">{t.dimensionsLabel}</label>
+                <input id="dimensions" name="dimensions"
                   type="text"
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                   required
@@ -161,10 +213,20 @@ export default function DonatePage({
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2">{t.marketPriceLabel}</label>
+                <label htmlFor="year" className="block text-gray-700 mb-2">{t.yearLabel}</label>
+                <input id="year" name="year"
+                  type="number"
+                  min="1000"
+                  max="9999"
+                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="marketPrice" className="block text-gray-700 mb-2">{t.marketPriceLabel}</label>
                 <div className="relative">
                   <span className="absolute left-3 top-2 text-gray-500">$</span>
-                  <input name="marketPrice"
+                  <input id="marketPrice" name="marketPrice"
                     type="number"
                     min="0"
                     step="0.01"
@@ -175,10 +237,10 @@ export default function DonatePage({
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2">{t.startingPriceLabel}</label>
+                <label htmlFor="startingPrice" className="block text-gray-700 mb-2">{t.startingPriceLabel}</label>
                 <div className="relative">
                   <span className="absolute left-3 top-2 text-gray-500">$</span>
-                  <input name="startingPrice"
+                  <input id="startingPrice" name="startingPrice"
                     type="number"
                     min="0"
                     step="0.01"
@@ -186,12 +248,23 @@ export default function DonatePage({
                     required
                   />
                 </div>
+              </div>
+
+              <div>
+                <label htmlFor="donationPercentage" className="block text-gray-700 mb-2">{t.donationPercentageLabel}</label>
+                <input id="donationPercentage" name="donationPercentage"
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="1"
+                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                />
               </div>
             </div>
             
             <div>
-              <label className="block text-gray-700 mb-2">{t.descriptionLabel}</label>
-              <textarea name="description"
+              <label htmlFor="description" className="block text-gray-700 mb-2">{t.descriptionLabel}</label>
+              <textarea id="description" name="description"
                 rows={4}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                 required
@@ -199,11 +272,13 @@ export default function DonatePage({
             </div>
 
             <div>
-              <label className="block text-gray-700 mb-2">{t.imageLabel}</label>
+              <label htmlFor="artImage" className="block text-gray-700 mb-2">{t.imageLabel}</label>
               <p className="text-sm text-gray-500 mb-2">{t.imageHelp}</p>
               <input
+                id="artImage"
                 type="file"
-                accept="image/jpeg,image/png"
+                name="image"
+                accept="image/*"
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                 required
               />
@@ -212,6 +287,7 @@ export default function DonatePage({
             <div className="flex justify-center">
               <button
                 type="submit"
+                onClick={(e)=>{ e.stopPropagation(); }}
                 className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-full text-lg font-semibold transition-colors shadow-lg"
               >
                 {t.submitButton}

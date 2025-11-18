@@ -14,9 +14,12 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   // Domain configuration
-  assetPrefix: 'https://transform-arte.com.mx',
+  assetPrefix: process.env.NODE_ENV === 'production' ? 'https://transform-arte.com.mx' : undefined,
   images: {
-    domains: ['transform-arte.com.mx'],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'transform-arte.com.mx' },
+      { protocol: 'https', hostname: '*.supabase.co' },
+    ],
   },
   // Cache and revalidation settings
   headers: async () => {
@@ -64,6 +67,7 @@ const nextConfig = {
     keepAlive: true,
   },
   // Add any other Next.js config options here
+  outputFileTracingRoot: __dirname
 };
 
 // Apply multiple plugins

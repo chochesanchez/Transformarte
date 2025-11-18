@@ -3,28 +3,24 @@ import Link from 'next/link';
 import Image from 'next/image';
 import CreatePostButton from './CreatePostButton';
 import CreatePostForm from './CreatePostForm';
-
-interface User {
-  id: number;
-  email: string;
-  passwordHash: string;
-  fullName: string;
-  role: string;
-  isActive: boolean;
-  createdAt: Date;
-  lastLogin: Date | null;
-}
+import { cookies } from 'next/headers';
+import { jwtVerify } from 'jose';
+import supabase from '@/lib/supabase';
+import PostImageCarousel from './PostImageCarousel';
+import CommentsSection from './CommentsSection';
+import PostActions from './PostActions';
 
 interface ForumPost {
   id: number;
-  userId: number;
+  user_id: number;
   title: string;
   content: string;
-  imageUrl: string | null;
-  isHidden: boolean;
-  createdAt: Date;
-  updatedAt: Date | null;
-  user: User;
+  image_url: string | null;
+  is_hidden: boolean;
+  created_at: string;
+  updated_at: string | null;
+  user: { id: number; fullName: string; email?: string };
+  comments?: any[];
 }
 
 // Static content for the page
@@ -56,6 +52,7 @@ const content = {
       recentPosts: "Recent Posts",
       noPosts: "Be the first to share your experience!",
       postedBy: "Posted by",
+      publishedOn: "Published on",
       readMore: "Read More"
     }
   },
@@ -86,6 +83,7 @@ const content = {
       recentPosts: "Publicaciones Recientes",
       noPosts: "¡Sé el primero en compartir tu experiencia!",
       postedBy: "Publicado por",
+      publishedOn: "Publicado el",
       readMore: "Leer Más"
     }
   }
@@ -93,19 +91,13 @@ const content = {
 
 async function getForumPosts(): Promise<ForumPost[]> {
   try {
-    const { PrismaClient } = await import('@prisma/client');
-    const prisma = new PrismaClient();
-    return await prisma.forumPost.findMany({
-      where: {
-        isHidden: false
-      },
-      include: {
-        user: true
-      },
-      orderBy: {
-        createdAt: 'desc'
-      }
-    });
+    const { data, error } = await supabase
+      .from('forum_posts')
+      .select('id,user_id,title,content,image_url,is_hidden,created_at,updated_at, user:users (id, fullName, email)')
+      .eq('is_hidden', false)
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    return (data as any) || [];
   } catch (error) {
     console.error('Error fetching forum posts:', error);
     return [];
@@ -125,7 +117,21 @@ export default async function CommunityPage({
   
   const posts = await getForumPosts();
 
-  const showForum = true;
+  // server-side check for auth cookie
+  const cookieStore = await cookies();
+  const token = cookieStore.get(process.env.COOKIE_NAME || 'ta_session')?.value;
+  let authed = false;
+  let admin = false;
+  let userId: number | null = null;
+  if (token) {
+    try {
+      const { payload } = await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET || 'dev-secret-change'));
+      authed = true;
+      userId = Number(payload.sub);
+      const role = String(payload.role || 'user');
+      admin = role === 'admin' || role === 'superadmin';
+    } catch {}
+  }
 
   return (
     <div className="container mx-auto">
@@ -133,84 +139,60 @@ export default async function CommunityPage({
         <h1 className="text-4xl font-bold text-primary mb-4">{t.title}</h1>
         <p className="mb-6 text-gray-700">{t.description}</p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          <div className="bg-gray-50 p-6 rounded-lg shadow">
-            <h2 className="text-2xl font-semibold mb-4">{t.register.title}</h2>
-            <p className="text-gray-600 mb-4">{t.register.description}</p>
-            <Link 
-              href="#" // Will be replaced with Google Forms link
-              target="_blank"
-              className="bg-primary text-white px-6 py-2 rounded-full font-semibold inline-block hover:bg-primary/90"
-            >
-              {t.register.button}
-            </Link>
-          </div>
-          
-          <div className="bg-gray-50 p-6 rounded-lg shadow">
-            <h2 className="text-2xl font-semibold mb-4">{t.createPost.title}</h2>
-            <p className="text-gray-600 mb-4">{t.createPost.description}</p>
-            <CreatePostButton buttonText={t.createPost.button} />
-          </div>
-        </div>
-        
-        {showForum ? (
-          /* Forum Section (currently disabled) */
         <div className="bg-gray-50 p-6 rounded-lg shadow mb-8">
-          <h2 className="text-2xl font-semibold mb-4">{t.forum.title}</h2>
-          <p className="text-gray-600 mb-8">{t.forum.description}</p>
-
-          <CreatePostForm labels={t.forum.createPost} />
-
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+            <div>
+              <h2 className="text-2xl font-semibold">{t.forum.title}</h2>
+              <p className="text-gray-600">{t.forum.description}</p>
+            </div>
+            <CreatePostButton buttonText={t.createPost.button} defaultAuthed={authed} locale={locale} fullWidthOnMobile />
+          </div>
+          {authed && <CreatePostForm labels={t.forum.createPost} locale={locale} />}
+        </div>
+        <div className="bg-gray-50 p-6 rounded-lg shadow mb-8">
           <div>
             <h3 className="text-xl font-semibold mb-4">{t.forum.recentPosts}</h3>
-              {posts.length === 0 ? (
-            <div className="text-center text-gray-500">
-              {t.forum.noPosts}
-                </div>
-              ) : (
-                <div className="space-y-6">
-                  {posts.map((post: ForumPost) => (
-                    <div key={post.id} className="bg-white p-6 rounded-lg shadow">
-                      <h4 className="text-xl font-semibold mb-2">{post.title}</h4>
-                      <p className="text-gray-600 mb-2">
-                        {t.forum.postedBy} {post.user.fullName}
-                      </p>
-                      <div className="prose max-w-none mb-4">
-                        {post.content.length > 200 ? (
-                          <>
-                            {post.content.slice(0, 200)}...
-                            <button className="text-primary font-medium ml-2">
-                              {t.forum.readMore}
-                            </button>
-                          </>
-                        ) : (
-                          post.content
-                        )}
+            {posts.length === 0 ? (
+              <div className="text-center text-gray-500">{t.forum.noPosts}</div>
+            ) : (
+              <div className="space-y-6">
+                {posts.map((post: ForumPost) => (
+                  <div key={post.id} className="bg-white p-6 rounded-lg shadow">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h4 className="text-xl font-semibold mb-2">{post.title}</h4>
+                        <p className="text-gray-600 mb-2">{t.forum.postedBy} {post.user?.fullName}</p>
+                        <p className="text-gray-500 text-sm mb-2">{t.forum.publishedOn} {new Date(post.created_at).toLocaleDateString(locale)}</p>
                       </div>
-                      {post.imageUrl && (
-                        <div className="relative w-full h-48 mt-4">
-                          <Image
-                            src={post.imageUrl}
-                            alt={post.title}
-                            fill
-                            className="object-cover rounded-lg"
-                          />
-                        </div>
+                      <PostActions postId={post.id} isOwner={userId===post.user_id} isAdmin={admin} title={post.title} content={post.content} locale={locale} />
+                    </div>
+                    <div className="prose max-w-none mb-4">
+                      {post.content.length > 200 ? (
+                        <>
+                          {post.content.slice(0, 200)}...
+                          <button className="text-primary font-medium ml-2">{t.forum.readMore}</button>
+                        </>
+                      ) : (
+                        post.content
                       )}
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                    {post.image_url && (
+                      <div className="mt-4">
+                        <PostImageCarousel raw={post.image_url as any} title={post.title} />
+                      </div>
+                    )}
+                    <CommentsSection postId={post.id} locale={locale} />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="bg-gray-50 p-6 rounded-lg shadow mb-8 text-center">
-            <h2 className="text-2xl font-semibold mb-4">{t.forum.title}</h2>
-            <p className="text-gray-600 mb-4">{t.forum.description}</p>
-            <p className="text-lg font-semibold text-gray-700">{locale === 'en' ? 'Soon…' : 'Próximamente'}</p>
-            <p className="text-gray-500 mt-2">{locale === 'en' ? 'Share photos of your experience once the forum is open.' : 'Comparte fotos de tu experiencia una vez que el foro esté disponible.'}</p>
         </div>
-        )}
+        <div className="bg-gray-50 p-6 rounded-lg shadow mb-8">
+          <h2 className="text-2xl font-semibold mb-4">{t.register.title}</h2>
+          <p className="text-gray-600 mb-4">{t.register.description}</p>
+          <Link href="#" target="_blank" className="bg-primary text-white px-6 py-2 rounded-full font-semibold inline-block hover:bg-primary/90">{t.register.button}</Link>
+        </div>
       </section>
     </div>
   );

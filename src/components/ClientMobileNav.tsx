@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -21,6 +21,16 @@ export default function ClientMobileNav({ currentLocale, translations }: MobileN
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const locale = currentLocale || 'es';
+  const [isAuthed, setIsAuthed] = useState<boolean>(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/auth', { cache: 'no-store', credentials: 'include' })
+      .then(r => r.json())
+      .then(j => { if (!cancelled) setIsAuthed(!!j.user); })
+      .catch(() => { if (!cancelled) setIsAuthed(false); });
+    return () => { cancelled = true; };
+  }, []);
   
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -95,13 +105,15 @@ export default function ClientMobileNav({ currentLocale, translations }: MobileN
             >
               {translations.contact}
             </Link>
-            <Link 
-              href={`/${locale}/auth`}
-              className={`hover:text-primary transition-colors text-gray-700`}
-              onClick={() => setIsOpen(false)}
-            >
-              {locale === 'en' ? 'Login / Signup' : 'Entrar / Crear cuenta'}
-            </Link>
+            {!isAuthed && (
+              <Link 
+                href={`/${locale}/auth`}
+                className={`hover:text-primary transition-colors text-gray-700`}
+                onClick={() => setIsOpen(false)}
+              >
+                {locale === 'en' ? 'Login' : 'Iniciar sesion'}
+              </Link>
+            )}
           </nav>
         </div>
       )}

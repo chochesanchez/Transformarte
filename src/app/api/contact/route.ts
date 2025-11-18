@@ -13,18 +13,19 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const data = MessageSchema.parse(body);
-
-    const { error } = await supabase.from('contact_messages').insert({
-      name: data.name,
-      email: data.email,
-      subject: data.subject,
-      message: data.message
-    });
-    if (error) throw new Error(error.message);
+    const { error } = await supabase.from('contact_messages').insert([
+      {
+        name: data.name,
+        email: data.email,
+        subject: data.subject,
+        message: data.message
+      }
+    ]);
+    if (error) throw error;
 
     return NextResponse.json({ success: true });
   } catch (err: any) {
     console.error(err);
     return NextResponse.json({ success: false, error: err.message ?? 'Invalid data' }, { status: 400 });
   }
-}
+} 

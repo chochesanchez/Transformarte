@@ -6,31 +6,38 @@ interface ConfirmationPopupProps {
   isOpen: boolean;
   onClose: () => void;
   locale: string;
+  kind?: 'artwork' | 'contact';
 }
 
 const content = {
   en: {
-    title: "Artwork submitted!",
-    message: "Your artwork will be reviewed for admission. Thank you for supporting TransformArte.",
+    artworkTitle: "Artwork submitted!",
+    artworkMessage: "Your artwork will be reviewed for admission. Thank you for supporting TransformArte. You can see it in the catalog once approved.",
+    contactTitle: "Message sent",
+    contactMessage: "Thank you for contacting us. We'll reply shortly.",
     button: "Close"
   },
   es: {
-    title: "¡Obra enviada!",
-    message: "Tu obra será revisada para su admisión. Gracias por apoyar a TransformArte.",
+    artworkTitle: "¡Obra enviada!",
+    artworkMessage: "Tu obra será revisada para su admisión. Gracias por apoyar a TransformArte. Podrás verla en el catálogo una vez aprobada.",
+    contactTitle: "Mensaje enviado",
+    contactMessage: "Gracias por contactarnos. Te responderemos a la brevedad.",
     button: "Cerrar"
   }
 };
 
-export default function ConfirmationPopup({ isOpen, onClose, locale }: ConfirmationPopupProps) {
+export default function ConfirmationPopup({ isOpen, onClose, locale, kind = 'artwork' }: ConfirmationPopupProps) {
   if (!isOpen) return null;
 
   const t = content[locale === 'en' ? 'en' : 'es'];
+  const title = kind === 'artwork' ? t.artworkTitle : t.contactTitle;
+  const message = kind === 'artwork' ? t.artworkMessage : t.contactMessage;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
-        <h3 className="text-2xl font-bold text-primary mb-4">{t.title}</h3>
-        <p className="text-gray-700 mb-6">{t.message}</p>
+        <h3 className="text-2xl font-bold text-primary mb-4">{title}</h3>
+        <p className="text-gray-700 mb-6">{message}</p>
         <div className="flex justify-center">
           <button
             onClick={onClose}

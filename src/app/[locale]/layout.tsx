@@ -14,14 +14,18 @@ const messages = {
   es: esMessages
 } as const;
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const inter = Inter({ 
+  subsets: ['latin'], 
+  display: 'swap',
+  variable: '--font-inter' 
+});
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export function generateMetadata({ params }: { params: { locale: Locale } }): Metadata {
-  const locale = params.locale;
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+  const { locale } = await params;
   
   return {
     metadataBase: new URL('https://transform-arte.com.mx'),
@@ -65,11 +69,12 @@ export function generateMetadata({ params }: { params: { locale: Locale } }): Me
 
 export default async function LocaleLayout({
   children,
-  params: { locale },
+  params,
 }: {
   children: React.ReactNode;
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 }) {
+  const { locale } = await params;
   // Validate locale
   if (!locales.includes(locale)) {
     notFound();
@@ -84,11 +89,25 @@ export default async function LocaleLayout({
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-icon.png" />
       </head>
-      <body className={`${inter.variable} font-sans bg-white`}>
+      <body className={`${inter.className} bg-white`}>
         <NextIntlClientProvider locale={locale} messages={localeMessages}>
-          <AppChrome>{children}</AppChrome>
+          <AppChrome>
+            <VisitPing />
+            {children}
+          </AppChrome>
         </NextIntlClientProvider>
       </body>
     </html>
+  );
+}
+
+function VisitPing() {
+  return (
+    <script dangerouslySetInnerHTML={{ __html: `
+      (function(){
+        if (window.__ta_visit_sent) return; window.__ta_visit_sent = true;
+        try{ fetch('/api/visits', { method: 'POST' }); }catch(e){}
+      })();
+    `}} />
   );
 } 

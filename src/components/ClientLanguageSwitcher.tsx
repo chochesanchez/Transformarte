@@ -32,20 +32,17 @@ export default function ClientLanguageSwitcher({ currentLocale }: LanguageSwitch
     setCookie('NEXT_LOCALE', newLocale, {
       maxAge: 365 * 24 * 60 * 60, // 1 year
       path: '/',
+      sameSite: 'lax',
     });
 
     // Update the display locale
     setDisplayLocale(newLocale);
 
-    // Trigger storage event for other components
-    window.dispatchEvent(new Event('storage'));
-
     // Navigate to the new locale path
     const newPath = `/${newLocale}${pathnameWithoutLocale || ''}`;
-    router.push(newPath);
-    
-    // Force a hard refresh to update all components
-    window.location.href = newPath;
+    router.replace(newPath);
+    // Soft refresh to re-render and keep cookies/session
+    router.refresh();
     
     setIsOpen(false);
   };

@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { SignJWT, jwtVerify } from 'jose';
 import bcrypt from 'bcryptjs';
-import prisma from '@/lib/prisma';
+// We avoid DB lookups for session reads; encode minimal user info in JWT
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || 'dev-secret-change');
 export const SESSION_COOKIE = process.env.COOKIE_NAME || 'ta_session';
@@ -16,8 +16,8 @@ export async function verifyPassword(plain: string, hash: string): Promise<boole
   return bcrypt.compare(plain, hash);
 }
 
-export async function createSession(userId: number) {
-  const token = await new SignJWT({ sub: String(userId) })
+export async function createSession(user: { id: number; email: string; fullName: string; role?: string }): Promise<string> {
+  const token = await new SignJWT({ sub: String(user.id), email: user.email, fullName: user.fullName, role: user.role || 'user' })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime('30d')
@@ -30,6 +30,7 @@ export async function createSession(userId: number) {
     path: '/',
     maxAge: 60 * 60 * 24 * 30,
   });
+  return token;
 }
 
 export async function clearSession() {
@@ -51,8 +52,12 @@ export async function getAuthUser(request: Request) {
     const { payload } = await jwtVerify(token, JWT_SECRET);
     const userId = Number(payload.sub);
     if (!userId) return null;
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-    return user;
+    return {
+      id: userId,
+      email: String(payload.email || ''),
+      fullName: String(payload.fullName || ''),
+      role: String(payload.role || 'user')
+    } as any;
   } catch {
     return null;
   }

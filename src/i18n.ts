@@ -4,30 +4,27 @@ import { notFound } from 'next/navigation';
 // Define all supported locales
 export const locales = ['en', 'es'] as const;
 export type Locale = (typeof locales)[number];
-export const defaultLocale: Locale = 'en';
+export const defaultLocale: Locale = 'es';
 
 export default getRequestConfig(async ({ locale }) => {
-  // Ensure locale is a string and validate it
-  if (typeof locale !== 'string' || !locales.includes(locale as Locale)) {
-    console.warn(`Unsupported locale requested: ${locale}, falling back to ${defaultLocale}`);
-    return { locale: defaultLocale, messages: {} };
-  }
+  const effectiveLocale: Locale =
+    typeof locale === 'string' && (locales as readonly string[]).includes(locale)
+      ? (locale as Locale)
+      : defaultLocale;
 
   try {
-    // Use proper relative path starting from the project root
-    const messages = (await import(`../messages/${locale}.json`)).default;
+    const messages = (await import(`../messages/${effectiveLocale}.json`)).default;
     return {
-      locale,
+      locale: effectiveLocale,
       messages,
       timeZone: 'America/Mexico_City'
     };
   } catch (error) {
-    console.error(`Could not load messages for locale ${locale}`, error);
-    // Return empty messages instead of failing completely
+    // Fail silent and keep UX clean; provide empty messages fallback
     return {
-      locale,
+      locale: effectiveLocale,
       messages: {},
       timeZone: 'America/Mexico_City'
     };
   }
-}); 
+});

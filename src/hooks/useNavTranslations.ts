@@ -7,18 +7,20 @@ const translations = {
     project: 'Project',
     about: 'About Us',
     donate: 'Donate Artwork',
-    catalog: 'Catalog',
+    catalog: 'Gallery',
     community: 'Community',
-    contact: 'Contact'
+    contact: 'Contact',
+    login: 'Login'
   },
   es: {
     home: 'Inicio',
     project: 'Proyecto',
     about: 'Quiénes Somos',
     donate: 'Donar Obra',
-    catalog: 'Catálogo',
+    catalog: 'Galería',
     community: 'Comunidad',
-    contact: 'Contacto'
+    contact: 'Contacto',
+    login: 'Iniciar sesion'
   }
 };
 
@@ -30,6 +32,7 @@ export interface NavigationTranslations {
   catalog: string;
   community: string;
   contact: string;
+  login?: string;
 }
 
 export function useNavTranslations(): NavigationTranslations {

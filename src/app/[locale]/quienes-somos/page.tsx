@@ -40,10 +40,27 @@ export default async function AboutPage({
   const t = content[locale === 'en' ? 'en' : 'es'];
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-primary mb-6 text-center">{t.title}</h1>
-        <h2 className="text-2xl text-secondary mb-12">{t.subtitle}</h2>
+    <>
+      {/* Hero */}
+      <section className="relative flex items-center justify-center text-white min-h-[50vh]">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-400 to-yellow-200 z-0" />
+        <div className="absolute inset-0 bg-black/30 z-1" />
+        <div className="relative z-10 container mx-auto px-4 py-16 text-center">
+          <div className="mb-6 flex justify-center" style={{ height: 250 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/Rotary Logo.png"
+              alt="Rotary International"
+              style={{ width: 'auto', height: '100%' }}
+              className="drop-shadow-lg"
+            />
+          </div>
+          <h1 className="text-5xl font-bold mb-4 text-white drop-shadow-md">{t.title}</h1>
+          <p className="text-xl text-white/90">{t.subtitle}</p>
+        </div>
+      </section>
+      <div className="container mx-auto px-4 py-12">
+        <div className="max-w-6xl mx-auto">
         
         {/* Team Section */}
         <section className="mb-16">
@@ -51,11 +68,11 @@ export default async function AboutPage({
           <div className="flex justify-center mb-12">
             <div className="text-center">
               <div className="relative w-48 h-48 mx-auto mb-4 rounded-full overflow-hidden">
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src="/david-eaton.png"
                   alt="David W. Eaton"
-                  fill
-                  className="object-cover"
+                  className="h-full w-full object-cover"
                 />
             </div>
               <h3 className="text-xl font-semibold mb-2">David W. Eaton</h3>
@@ -72,7 +89,7 @@ export default async function AboutPage({
 
         {/* Vision and Mission Section */}
         <section className="mb-16">
-          <div className="bg-gray-50 p-8 rounded-lg mb-12">
+          <div className="bg-gray-50 p-8 rounded-lg shadow mb-12">
             <p className="text-lg text-gray-700 mb-6">{t.togetherStatement}</p>
             <p className="text-sm text-gray-500 italic">{t.rotaryVision}</p>
             </div>
@@ -82,12 +99,17 @@ export default async function AboutPage({
             <p className="text-lg text-gray-700 mb-8">{t.mainDescription}</p>
           </div>
           
-          <div className="space-y-8">
-            <p className="text-lg text-gray-700">{t.memberContribution}</p>
-            <p className="text-lg text-gray-700">{t.diversityStatement}</p>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-white rounded-lg shadow p-6">
+              <p className="text-lg text-gray-700">{t.memberContribution}</p>
+            </div>
+            <div className="bg-white rounded-lg shadow p-6">
+              <p className="text-lg text-gray-700">{t.diversityStatement}</p>
+            </div>
           </div>
         </section>
       </div>
     </div>
+    </>
   );
 } 

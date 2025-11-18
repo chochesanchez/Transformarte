@@ -1,14 +1,16 @@
 "use client";
 
 import React from 'react';
-import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import Image from 'next/image';
+import ConfirmationPopup from '@/components/ConfirmationPopup';
+import qrImg from '../../../../spec/IMG_4890.JPG';
 
 // Static content for the page
 const content = {
   en: {
     title: "Contact Us",
-    description: "Have questions, suggestions, or want to collaborate? Write to us and we'll respond promptly.",
+    description: "Have questions or want to support? You can donate directly using the button below.",
     form: {
       name: "Name",
       email: "Email",
@@ -17,12 +19,12 @@ const content = {
       button: "Send"
     },
     donations: {
-      title: "Global Donations",
-      description: "Support TransformArte with your donation: choose your preferred method and contribute to the wellbeing of young people.",
-      paypal: "Donate with PayPal",
+      title: "Donate",
+      description: "Your support brings mental health and art programs to youth across Mexico.",
+      paypal: "Donate Now",
       bank: {
-        title: "Bank Transfer",
-        details: `IBC Bank\nAccount Number: 2 11 7 5 5 5 9 9 3\n\nTransfer\nTransformArte / IBC Bank\nClub Rotario Monterrey Metropolitano AC\nIBC Bank / Laredo Texas\nAccount Number: 2 11 7 5 5 5 9 9 3`
+        title: "Transfer",
+        details: `IBC Bank\nAccount Number: 2 11 7 5 5 5 9 9 3\n\nTransformArte / IBC Bank\nClub Rotario Monterrey Metropolitano AC\nIBC Bank / Laredo Texas\nAccount Number: 2 11 7 5 5 5 9 9 3`
       }
     },
     newsletter: {
@@ -34,7 +36,7 @@ const content = {
   },
   es: {
     title: "Contáctanos",
-    description: "¿Tienes preguntas, sugerencias o quieres colaborar? Escríbenos y te responderemos a la brevedad.",
+    description: "¿Tienes preguntas o quieres apoyar? Puedes donar directamente con el botón de abajo.",
     form: {
       name: "Nombre",
       email: "Correo Electrónico",
@@ -43,12 +45,12 @@ const content = {
       button: "Enviar"
     },
     donations: {
-      title: "Donaciones Globales",
-      description: "Apoya TransformArte con tu donación: elige tu método preferido y contribuye al bienestar de los jóvenes.",
-      paypal: "Donar con PayPal",
+      title: "Donar",
+      description: "Tu apoyo lleva programas de salud mental y arte a jóvenes en México.",
+      paypal: "Donar Ahora",
       bank: {
-        title: "Transferencia Bancaria",
-        details: `Banco IBC\nNúmero de Cuenta: 2 11 7 5 5 5 9 9 3\n\nTransferencia\nTransformArte / Banco IBC\nClub Rotario Monterrey Metropolitano AC\nIBC Bank / Laredo Texas\nNúmero de Cuenta: 2 11 7 5 5 5 9 9 3`
+        title: "Transferencia",
+        details: `Banco IBC\nNúmero de Cuenta: 2 11 7 5 5 5 9 9 3\n\nTransformArte / Banco IBC\nClub Rotario Monterrey Metropolitano AC\nIBC Bank / Laredo Texas\nNúmero de Cuenta: 2 11 7 5 5 5 9 9 3`
       }
     },
     newsletter: {
@@ -65,6 +67,8 @@ export default function ContactPage() {
   const localeParam = params?.locale as string | undefined;
   const locale = localeParam && (localeParam === 'en' || localeParam === 'es') ? localeParam : 'es';
   const t = content[locale === 'en' ? 'en' : 'es'];
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [popupKind, setPopupKind] = React.useState<'contact'|'artwork'>('contact');
 
   return (
     <div className="container mx-auto">
@@ -91,31 +95,33 @@ export default function ContactPage() {
                 body: JSON.stringify(payload)
               });
               if(res.ok){
-                alert(locale==='en' ? 'Message sent' : 'Mensaje enviado');
                 form.reset();
+                setPopupKind('contact');
+                setIsOpen(true);
               } else {
-                alert('Error');
+                setPopupKind('contact');
+                setIsOpen(true);
               }
             } catch(err){
               console.error(err);
-              alert('Error');
+              setIsOpen(true);
             }
           }}>
             <div>
-              <label className="block font-semibold mb-1">{t.form.name}</label>
-              <input name="name" type="text" className="w-full border rounded px-3 py-2" required />
+              <label htmlFor="name" className="block font-semibold mb-1">{t.form.name}</label>
+              <input id="name" name="name" autoComplete="name" type="text" className="w-full border rounded px-3 py-2" required />
             </div>
             <div>
-              <label className="block font-semibold mb-1">{t.form.email}</label>
-              <input name="email" type="email" className="w-full border rounded px-3 py-2" required />
+              <label htmlFor="email" className="block font-semibold mb-1">{t.form.email}</label>
+              <input id="email" name="email" autoComplete="email" type="email" className="w-full border rounded px-3 py-2" required />
             </div>
             <div>
-              <label className="block font-semibold mb-1">{t.form.subject}</label>
-              <input name="subject" type="text" className="w-full border rounded px-3 py-2" required />
+              <label htmlFor="subject" className="block font-semibold mb-1">{t.form.subject}</label>
+              <input id="subject" name="subject" autoComplete="on" type="text" className="w-full border rounded px-3 py-2" required />
             </div>
             <div>
-              <label className="block font-semibold mb-1">{t.form.message}</label>
-              <textarea name="message" className="w-full border rounded px-3 py-2" rows={5} required />
+              <label htmlFor="message" className="block font-semibold mb-1">{t.form.message}</label>
+              <textarea id="message" name="message" autoComplete="on" className="w-full border rounded px-3 py-2" rows={5} required />
             </div>
             <button type="submit" className="bg-primary text-white px-6 py-2 rounded-full font-semibold w-full">
               {t.form.button}
@@ -123,26 +129,18 @@ export default function ContactPage() {
           </form>
           
           <div>
-            <div className="bg-gray-50 p-6 rounded-lg shadow mb-6">
-              <h2 className="text-2xl font-semibold mb-4">{t.donations.title}</h2>
-              <p className="text-gray-700 mb-4">{t.donations.description}</p>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-semibold mb-1">PayPal</h3>
-                  <Link 
-                    href="https://www.paypal.com/paypalme/chochesanchez"
-                    target="_blank"
-                    className="bg-blue-500 text-white px-4 py-2 rounded inline-block hover:bg-blue-600 transition-colors"
-                  >
-                    {t.donations.paypal}
-                  </Link>
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">{t.donations.bank.title}</h3>
-                  <pre className="text-sm text-gray-600 whitespace-pre-wrap font-sans">
-                    {t.donations.bank.details}
-                  </pre>
-                </div>
+            <div className="bg-gradient-to-br from-blue-600 to-blue-800 p-8 rounded-lg shadow mb-6 text-white text-center">
+              <h2 className="text-3xl font-bold mb-4">{t.donations.title}</h2>
+              <p className="text-blue-100 mb-6">{t.donations.description}</p>
+              <div className="flex flex-col items-center gap-3">
+                <a 
+                  href="https://alwayson.recaudia.com/cmrr/donor"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-yellow-400 hover:bg-yellow-300 text-blue-900 font-bold px-8 py-4 rounded-full text-lg"
+                >
+                  {locale==='en' ? 'Donate' : 'Donar'}
+                </a>
               </div>
             </div>
             
@@ -161,6 +159,23 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      {/* QR for live events: large and readable */}
+      <section className="px-4 pb-16">
+        <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-8 md:p-12 text-center">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-primary mb-6">
+            {locale === 'en' ? 'Donate right now' : 'Dona ahora mismo'}
+          </h2>
+          <div className="mx-auto max-w-2xl">
+            <Image
+              src={qrImg}
+              alt={locale==='en' ? 'Donation QR code' : 'Código QR para donar'}
+              className="w-full h-auto rounded-xl border border-gray-200 shadow"
+              priority
+            />
+          </div>
+        </div>
+      </section>
+      <ConfirmationPopup isOpen={isOpen} onClose={()=>setIsOpen(false)} locale={locale} kind={popupKind} />
     </div>
   );
 } 

@@ -149,6 +149,25 @@ export default async function ProjectPage({
             <p className="text-gray-700">{t.visionText}</p>
           </div>
         </div>
+
+        {/* Partners Section */}
+        <section className="mb-16">
+          <h3 className="text-3xl font-bold text-primary mb-6">{locale==='en' ? 'Partners & Allies' : 'Aliados & Patrocinadores'}</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h4 className="text-xl font-semibold mb-2">{locale==='en' ? 'Centro de Psicología Conductual' : 'Centro de Psicología Conductual'}</h4>
+              <p className="text-gray-700 text-sm">{locale==='en' ? 'Clinical and educational support through workshops, webinars and early prevention programs.' : 'Apoyo clínico y educativo mediante talleres, webinars y programas de prevención temprana.'}</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h4 className="text-xl font-semibold mb-2">Rotary</h4>
+              <p className="text-gray-700 text-sm">{locale==='en' ? 'District 4130 leadership, logistics and community network across seven cities.' : 'Liderazgo del Distrito 4130, logística y red comunitaria en siete ciudades.'}</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h4 className="text-xl font-semibold mb-2">CONALEP</h4>
+              <p className="text-gray-700 text-sm">{locale==='en' ? 'Institutional collaboration for youth outreach and training activities.' : 'Colaboración institucional para alcance juvenil y actividades formativas.'}</p>
+            </div>
+          </div>
+        </section>
         
         {/* Objectives Section */}
         <div className="mb-16">

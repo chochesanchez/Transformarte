@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -21,38 +21,47 @@ interface ClientNavLinksProps {
 
 export default function ClientNavLinks({ locale, translations }: ClientNavLinksProps) {
   const pathname = usePathname();
+  const [isAuthed, setIsAuthed] = useState<boolean>(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/auth', { cache: 'no-store', credentials: 'include' })
+      .then(r => r.json())
+      .then(j => { if (!cancelled) setIsAuthed(!!j.user); })
+      .catch(() => { if (!cancelled) setIsAuthed(false); });
+    return () => { cancelled = true; };
+  }, []);
   
   const isActive = (path: string) => {
     const localePath = `/${locale}${path}`;
-    return pathname === localePath || pathname === path ? 'text-primary font-semibold' : 'text-gray-700';
+    return pathname === localePath || pathname === path ? 'text-primary font-bold' : 'text-gray-700 font-medium';
   };
 
   return (
     <>
-      <Link href={`/${locale}`} className={`hover:text-primary transition-colors ${isActive('/')}`}>
-        {translations.home}
-      </Link>
-      <Link href={`/${locale}/proyecto`} className={`hover:text-primary transition-colors ${isActive('/proyecto')}`}>
+      <Link href={`/${locale}/proyecto`} className={`hover:text-primary transition-colors text-base ${isActive('/proyecto')}`}>
         {translations.project}
       </Link>
-      <Link href={`/${locale}/quienes-somos`} className={`hover:text-primary transition-colors ${isActive('/quienes-somos')}`}>
+      <Link href={`/${locale}/quienes-somos`} className={`hover:text-primary transition-colors text-base ${isActive('/quienes-somos')}`}>
         {translations.about}
       </Link>
-      <Link href={`/${locale}/donar`} className={`hover:text-primary transition-colors ${isActive('/donar')}`}>
+      <Link href={`/${locale}/donar`} className={`hover:text-primary transition-colors text-base ${isActive('/donar')}`}>
         {translations.donate}
       </Link>
-      <Link href={`/${locale}/catalogo`} className={`hover:text-primary transition-colors ${isActive('/catalogo')}`}>
+      <Link href={`/${locale}/catalogo`} className={`hover:text-primary transition-colors text-base ${isActive('/catalogo')}`}>
         {translations.catalog}
       </Link>
-      <Link href={`/${locale}/comunidad`} className={`hover:text-primary transition-colors ${isActive('/comunidad')}`}>
+      <Link href={`/${locale}/comunidad`} className={`hover:text-primary transition-colors text-base ${isActive('/comunidad')}`}>
         {translations.community}
       </Link>
-      <Link href={`/${locale}/contacto`} className={`hover:text-primary transition-colors ${isActive('/contacto')}`}>
+      <Link href={`/${locale}/contacto`} className={`hover:text-primary transition-colors text-base ${isActive('/contacto')}`}>
         {translations.contact}
       </Link>
-      <Link href={`/${locale}/auth`} className="hover:text-primary transition-colors text-gray-700">
-        {translations.login || (locale === 'en' ? 'Login / Signup' : 'Entrar / Crear cuenta')}
-      </Link>
+      {!isAuthed && (
+        <Link href={`/${locale}/auth`} className="hover:text-primary transition-colors text-gray-700">
+          {translations.login}
+        </Link>
+      )}
     </>
   );
 } 
