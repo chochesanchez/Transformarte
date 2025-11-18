@@ -2,7 +2,7 @@
 import React from 'react';
 import AdminActionButton from './AdminActionButton';
 import SignedImg from '@/components/SignedImg';
-import Lightbox from '@/components/Lightbox';
+import Lightbox from '../catalogo/Lightbox';
 import PostAdminCard from './PostAdminCard';
 import SegmentedControl from './SegmentedControl';
 

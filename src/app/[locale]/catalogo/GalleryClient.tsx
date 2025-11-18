@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import SignedImg from '@/components/SignedImg';
-import Lightbox from '@/components/Lightbox';
+import Lightbox from './Lightbox';
 
 export default function GalleryClient({
   donations,
