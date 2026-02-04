@@ -27,6 +27,7 @@ interface ForumPost {
 const content = {
   en: {
     title: "Community",
+    subtitle: "Connect, share, and grow together",
     description: "Join our community of artists and supporters of mental health awareness.",
     register: {
       title: "Register for Events",
@@ -54,10 +55,16 @@ const content = {
       postedBy: "Posted by",
       publishedOn: "Published on",
       readMore: "Read More"
+    },
+    stats: {
+      members: "Community Members",
+      posts: "Posts Shared",
+      cities: "Cities Connected"
     }
   },
   es: {
     title: "Comunidad",
+    subtitle: "Conecta, comparte y crece junto a nosotros",
     description: "Únete a nuestra comunidad de artistas y promotores de la salud mental.",
     register: {
       title: "Registro para Eventos",
@@ -85,21 +92,36 @@ const content = {
       postedBy: "Publicado por",
       publishedOn: "Publicado el",
       readMore: "Leer Más"
+    },
+    stats: {
+      members: "Miembros de la Comunidad",
+      posts: "Publicaciones Compartidas",
+      cities: "Ciudades Conectadas"
     }
   }
 };
 
 async function getForumPosts(): Promise<ForumPost[]> {
   try {
+    // Check if Supabase is configured
+    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return [];
+    }
     const { data, error } = await supabase
       .from('forum_posts')
       .select('id,user_id,title,content,image_url,is_hidden,created_at,updated_at, user:users (id, fullName, email)')
       .eq('is_hidden', false)
       .order('created_at', { ascending: false });
-    if (error) throw error;
+    if (error) {
+      // Only log if it's not a connection/config issue
+      if (error.message && !error.message.includes('fetch')) {
+        console.error('Error fetching forum posts:', error);
+      }
+      return [];
+    }
     return (data as any) || [];
   } catch (error) {
-    console.error('Error fetching forum posts:', error);
+    // Silently fail if Supabase isn't configured
     return [];
   }
 }
@@ -134,66 +156,152 @@ export default async function CommunityPage({
   }
 
   return (
-    <div className="container mx-auto">
-      <section className="pt-12 pb-12 px-4 max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-primary mb-4">{t.title}</h1>
-        <p className="mb-6 text-gray-700">{t.description}</p>
-        
-        <div className="bg-gray-50 p-6 rounded-lg shadow mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-            <div>
-              <h2 className="text-2xl font-semibold">{t.forum.title}</h2>
-              <p className="text-gray-600">{t.forum.description}</p>
-            </div>
-            <CreatePostButton buttonText={t.createPost.button} defaultAuthed={authed} locale={locale} fullWidthOnMobile />
+    <>
+      {/* Hero Section */}
+      <section className="relative flex items-center justify-center text-white min-h-[40vh]">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-600 via-pink-500 to-rose-400 z-0" />
+        <div className="absolute inset-0 bg-black/20 z-1" />
+        <div className="relative z-10 container mx-auto px-4 py-16 text-center">
+          <div className="inline-block bg-white/20 backdrop-blur-sm px-6 py-2 rounded-full mb-6">
+            <span className="text-white font-semibold">🤝 {locale === 'en' ? 'Join the Movement' : 'Únete al Movimiento'}</span>
           </div>
-          {authed && <CreatePostForm labels={t.forum.createPost} locale={locale} />}
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white drop-shadow-md">
+            {t.title}
+          </h1>
+          <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto">
+            {t.subtitle}
+          </p>
         </div>
-        <div className="bg-gray-50 p-6 rounded-lg shadow mb-8">
-          <div>
-            <h3 className="text-xl font-semibold mb-4">{t.forum.recentPosts}</h3>
+      </section>
+
+      {/* Quick Stats */}
+      <section className="py-8 px-4 bg-white border-b">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="text-center p-4">
+              <div className="text-3xl font-bold text-pink-500">{posts.length}</div>
+              <div className="text-gray-600 text-sm">{t.stats.posts}</div>
+            </div>
+            <div className="text-center p-4 border-l">
+              <div className="text-3xl font-bold text-rose-500">8</div>
+              <div className="text-gray-600 text-sm">{t.stats.cities}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="container mx-auto">
+        <section className="py-12 px-4 max-w-4xl mx-auto">
+          
+          {/* Forum Section */}
+          <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-3xl shadow-lg mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <div>
+                <h2 className="text-3xl font-bold text-purple-900 flex items-center gap-3">
+                  <span className="bg-purple-100 p-2 rounded-xl">💬</span>
+                  {t.forum.title}
+                </h2>
+                <p className="text-gray-600 mt-2">{t.forum.description}</p>
+              </div>
+              <CreatePostButton buttonText={t.createPost.button} defaultAuthed={authed} locale={locale} fullWidthOnMobile />
+            </div>
+            {authed && (
+              <div className="bg-white p-6 rounded-2xl shadow-inner mb-6">
+                <CreatePostForm labels={t.forum.createPost} locale={locale} />
+              </div>
+            )}
+          </div>
+
+          {/* Recent Posts */}
+          <div className="mb-8">
+            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+              <span className="bg-pink-100 p-2 rounded-xl">📝</span>
+              {t.forum.recentPosts}
+            </h3>
+            
             {posts.length === 0 ? (
-              <div className="text-center text-gray-500">{t.forum.noPosts}</div>
+              <div className="bg-gradient-to-br from-gray-50 to-purple-50 p-12 rounded-3xl text-center">
+                <div className="text-6xl mb-4">✨</div>
+                <p className="text-gray-600 text-lg">{t.forum.noPosts}</p>
+                {!authed && (
+                  <Link 
+                    href={`/${locale}/auth`}
+                    className="inline-block mt-6 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-full font-semibold transition-colors"
+                  >
+                    {locale === 'en' ? 'Sign in to post' : 'Inicia sesión para publicar'}
+                  </Link>
+                )}
+              </div>
             ) : (
               <div className="space-y-6">
                 {posts.map((post: ForumPost) => (
-                  <div key={post.id} className="bg-white p-6 rounded-lg shadow">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h4 className="text-xl font-semibold mb-2">{post.title}</h4>
-                        <p className="text-gray-600 mb-2">{t.forum.postedBy} {post.user?.fullName}</p>
-                        <p className="text-gray-500 text-sm mb-2">{t.forum.publishedOn} {new Date(post.created_at).toLocaleDateString(locale)}</p>
+                  <div 
+                    key={post.id} 
+                    className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100"
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                          {post.user?.fullName?.charAt(0).toUpperCase() || '?'}
+                        </div>
+                        <div>
+                          <h4 className="text-xl font-bold text-gray-900">{post.title}</h4>
+                          <div className="flex items-center gap-2 text-sm text-gray-500">
+                            <span className="font-medium text-purple-600">{post.user?.fullName}</span>
+                            <span>•</span>
+                            <span>{new Date(post.created_at).toLocaleDateString(locale)}</span>
+                          </div>
+                        </div>
                       </div>
                       <PostActions postId={post.id} isOwner={userId===post.user_id} isAdmin={admin} title={post.title} content={post.content} locale={locale} />
                     </div>
-                    <div className="prose max-w-none mb-4">
+                    
+                    <div className="prose max-w-none text-gray-700 mb-4">
                       {post.content.length > 200 ? (
                         <>
                           {post.content.slice(0, 200)}...
-                          <button className="text-primary font-medium ml-2">{t.forum.readMore}</button>
+                          <button className="text-purple-600 font-medium ml-2 hover:text-purple-800">{t.forum.readMore}</button>
                         </>
                       ) : (
                         post.content
                       )}
                     </div>
+                    
                     {post.image_url && (
-                      <div className="mt-4">
+                      <div className="mt-4 rounded-xl overflow-hidden">
                         <PostImageCarousel raw={post.image_url as any} title={post.title} />
                       </div>
                     )}
-                    <CommentsSection postId={post.id} locale={locale} />
+                    
+                    <div className="mt-4 pt-4 border-t border-gray-100">
+                      <CommentsSection postId={post.id} locale={locale} />
+                    </div>
                   </div>
                 ))}
               </div>
             )}
           </div>
-        </div>
-        <div className="bg-gray-50 p-6 rounded-lg shadow mb-8">
-          <h2 className="text-2xl font-semibold mb-4">{t.register.title}</h2>
-          <p className="text-gray-600 mb-4">{t.register.description}</p>
-          <Link href="#" target="_blank" className="bg-primary text-white px-6 py-2 rounded-full font-semibold inline-block hover:bg-primary/90">{t.register.button}</Link>
-        </div>
-      </section>
-    </div>
+
+          {/* Register for Events */}
+          <div className="bg-gradient-to-r from-rose-500 to-pink-500 p-8 rounded-3xl shadow-xl text-white">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <div>
+                <div className="text-4xl mb-3">📅</div>
+                <h2 className="text-2xl font-bold mb-2">{t.register.title}</h2>
+                <p className="text-white/90">{t.register.description}</p>
+              </div>
+              <a 
+                href="https://edu.transformarte.com.mx" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-white text-pink-600 hover:bg-gray-100 px-8 py-4 rounded-full font-bold text-lg transition-colors shadow-lg whitespace-nowrap"
+              >
+                {t.register.button}
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </>
   );
-} 
+}

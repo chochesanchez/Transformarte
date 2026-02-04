@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import GalleryClient from './GalleryClient';
 import supabase from '@/lib/supabase';
 
@@ -12,8 +13,9 @@ export const revalidate = 0;
 // Static content for the page
 const content = {
   en: {
-    title: "Gallery",
-    subtitle: "Explore our collection of donated artworks",
+    title: "Art Gallery",
+    subtitle: "Discover artwork from talented artists supporting mental health",
+    description: "Each piece tells a story of transformation and resilience",
     filters: {
       title: "Filters",
       search: "Search by title or artist",
@@ -49,11 +51,17 @@ const content = {
     currency: "MXN",
     year: "Year",
     technique: "Technique",
-    dimensions: "Dimensions"
+    dimensions: "Dimensions",
+    stats: {
+      artworks: "Artworks",
+      artists: "Artists",
+      cities: "Cities"
+    }
   },
   es: {
-    title: "Galería",
-    subtitle: "Explora nuestra colección de obras donadas",
+    title: "Galería de Arte",
+    subtitle: "Descubre obras de artistas talentosos que apoyan la salud mental",
+    description: "Cada pieza cuenta una historia de transformación y resiliencia",
     filters: {
       title: "Filtros",
       search: "Buscar por título o artista",
@@ -89,7 +97,12 @@ const content = {
     currency: "MXN",
     year: "Año",
     technique: "Técnica",
-    dimensions: "Dimensiones"
+    dimensions: "Dimensiones",
+    stats: {
+      artworks: "Obras",
+      artists: "Artistas",
+      cities: "Ciudades"
+    }
   }
 };
 
@@ -145,13 +158,77 @@ export default async function CatalogPage({
     donations = signed;
   }
 
+  // Count unique artists
+  const uniqueArtists = new Set(donations.map(d => d.artist_name)).size;
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-primary mb-4">{t.title}</h1>
-        <h2 className="text-2xl text-secondary mb-6">{t.subtitle}</h2>
-        <GalleryClient donations={donations} t={t} />
+    <>
+      {/* Hero Section */}
+      <section className="relative flex items-center justify-center text-white min-h-[45vh]">
+        <div className="absolute inset-0 bg-gradient-to-br from-rose-500 via-pink-500 to-orange-400 z-0" />
+        <div className="absolute inset-0 bg-black/20 z-1" />
+        <div className="relative z-10 container mx-auto px-4 py-16 text-center">
+          <div className="inline-block bg-white/20 backdrop-blur-sm px-6 py-2 rounded-full mb-6">
+            <span className="text-white font-semibold">🎨 {locale === 'en' ? 'Art Collection' : 'Colección de Arte'}</span>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white drop-shadow-md">
+            {t.title}
+          </h1>
+          <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto mb-2">
+            {t.subtitle}
+          </p>
+          <p className="text-lg text-white/80 max-w-xl mx-auto">
+            {t.description}
+          </p>
+        </div>
+      </section>
+
+      {/* Stats Bar */}
+      <section className="py-6 px-4 bg-white border-b shadow-sm">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-3 gap-4">
+            <div className="text-center p-4">
+              <div className="text-3xl font-bold text-rose-500">{donations.length}</div>
+              <div className="text-gray-600 text-sm">{t.stats.artworks}</div>
+            </div>
+            <div className="text-center p-4 border-x">
+              <div className="text-3xl font-bold text-pink-500">{uniqueArtists}</div>
+              <div className="text-gray-600 text-sm">{t.stats.artists}</div>
+            </div>
+            <div className="text-center p-4">
+              <div className="text-3xl font-bold text-orange-500">8</div>
+              <div className="text-gray-600 text-sm">{t.stats.cities}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery Content */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="max-w-6xl mx-auto">
+          <GalleryClient donations={donations} t={t} />
+          
+          {/* CTA Section */}
+          {donations.length > 0 && (
+            <div className="mt-16 bg-gradient-to-r from-rose-500 to-pink-500 p-10 rounded-3xl text-center shadow-xl">
+              <h2 className="text-3xl font-bold text-white mb-4">
+                {locale === 'en' ? 'Want to contribute?' : '¿Quieres contribuir?'}
+              </h2>
+              <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
+                {locale === 'en' 
+                  ? 'Share your art with the world and support mental health awareness in Mexico.'
+                  : 'Comparte tu arte con el mundo y apoya la concientización sobre salud mental en México.'}
+              </p>
+              <Link 
+                href={`/${locale}/donar`}
+                className="inline-block bg-white text-rose-600 hover:bg-gray-100 px-10 py-4 rounded-full text-lg font-bold transition-colors shadow-lg"
+              >
+                {locale === 'en' ? '🎨 Donate Artwork' : '🎨 Donar Obra'}
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
-} 
+}

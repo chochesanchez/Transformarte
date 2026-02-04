@@ -108,5 +108,3 @@ export default async function AdminPage({ params }: { params: Promise<{ locale: 
     </div>
   );
 }
-
- 

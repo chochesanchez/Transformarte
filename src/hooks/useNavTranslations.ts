@@ -1,24 +1,26 @@
 import { useLocale } from 'next-intl';
 
-// Default translations
+// Default translations matching the live site navigation
 const translations = {
   en: {
     home: 'Home',
     project: 'Project',
+    programs: 'Programs',
     about: 'About Us',
-    donate: 'Donate Artwork',
-    catalog: 'Gallery',
+    gallery: 'Gallery',
     community: 'Community',
+    sponsors: 'Sponsors',
     contact: 'Contact',
     login: 'Login'
   },
   es: {
     home: 'Inicio',
     project: 'Proyecto',
+    programs: 'Programas',
     about: 'Quiénes Somos',
-    donate: 'Donar Obra',
-    catalog: 'Galería',
+    gallery: 'Galería',
     community: 'Comunidad',
+    sponsors: 'Patrocinadores',
     contact: 'Contacto',
     login: 'Iniciar sesion'
   }
@@ -27,10 +29,11 @@ const translations = {
 export interface NavigationTranslations {
   home: string;
   project: string;
+  programs: string;
   about: string;
-  donate: string;
-  catalog: string;
+  gallery: string;
   community: string;
+  sponsors: string;
   contact: string;
   login?: string;
 }
@@ -41,4 +44,4 @@ export function useNavTranslations(): NavigationTranslations {
   
   // Safe access to translations with fallback
   return translations[locale === 'en' ? 'en' : 'es'];
-} 
+}

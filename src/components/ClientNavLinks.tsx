@@ -9,13 +9,13 @@ interface ClientNavLinksProps {
   translations: {
     home: string;
     project: string;
+    programs: string;
     about: string;
-    donate: string;
-    catalog: string;
+    gallery: string;
     community: string;
+    sponsors: string;
     contact: string;
     login?: string;
-    signup?: string;
   };
 }
 
@@ -42,26 +42,29 @@ export default function ClientNavLinks({ locale, translations }: ClientNavLinksP
       <Link href={`/${locale}/proyecto`} className={`hover:text-primary transition-colors text-base ${isActive('/proyecto')}`}>
         {translations.project}
       </Link>
+      <Link href={`/${locale}/servicios`} className={`hover:text-primary transition-colors text-base ${isActive('/servicios')}`}>
+        {translations.programs}
+      </Link>
       <Link href={`/${locale}/quienes-somos`} className={`hover:text-primary transition-colors text-base ${isActive('/quienes-somos')}`}>
         {translations.about}
       </Link>
-      <Link href={`/${locale}/donar`} className={`hover:text-primary transition-colors text-base ${isActive('/donar')}`}>
-        {translations.donate}
-      </Link>
       <Link href={`/${locale}/catalogo`} className={`hover:text-primary transition-colors text-base ${isActive('/catalogo')}`}>
-        {translations.catalog}
+        {translations.gallery}
       </Link>
       <Link href={`/${locale}/comunidad`} className={`hover:text-primary transition-colors text-base ${isActive('/comunidad')}`}>
         {translations.community}
+      </Link>
+      <Link href={`/${locale}/patrocinadores`} className={`hover:text-primary transition-colors text-base ${isActive('/patrocinadores')}`}>
+        {translations.sponsors}
       </Link>
       <Link href={`/${locale}/contacto`} className={`hover:text-primary transition-colors text-base ${isActive('/contacto')}`}>
         {translations.contact}
       </Link>
       {!isAuthed && (
-        <Link href={`/${locale}/auth`} className="hover:text-primary transition-colors text-gray-700">
-          {translations.login}
+        <Link href={`/${locale}/auth`} className="hover:text-primary transition-colors text-gray-700 font-medium">
+          {translations.login || (locale === 'en' ? 'Login' : 'Iniciar sesion')}
         </Link>
       )}
     </>
   );
-} 
+}

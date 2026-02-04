@@ -9,11 +9,13 @@ interface MobileNavProps {
   translations: {
     home: string;
     project: string;
+    programs: string;
     about: string;
-    donate: string;
-    catalog: string;
+    gallery: string;
     community: string;
+    sponsors: string;
     contact: string;
+    login?: string;
   };
 }
 
@@ -71,6 +73,13 @@ export default function ClientMobileNav({ currentLocale, translations }: MobileN
               {translations.project}
             </Link>
             <Link 
+              href={`/${locale}/servicios`}
+              className={`hover:text-primary transition-colors ${isActive('/servicios')}`}
+              onClick={() => setIsOpen(false)}
+            >
+              {translations.programs}
+            </Link>
+            <Link 
               href={`/${locale}/quienes-somos`}
               className={`hover:text-primary transition-colors ${isActive('/quienes-somos')}`}
               onClick={() => setIsOpen(false)}
@@ -78,18 +87,11 @@ export default function ClientMobileNav({ currentLocale, translations }: MobileN
               {translations.about}
             </Link>
             <Link 
-              href={`/${locale}/donar`}
-              className={`hover:text-primary transition-colors ${isActive('/donar')}`}
-              onClick={() => setIsOpen(false)}
-            >
-              {translations.donate}
-            </Link>
-            <Link 
               href={`/${locale}/catalogo`}
               className={`hover:text-primary transition-colors ${isActive('/catalogo')}`}
               onClick={() => setIsOpen(false)}
             >
-              {translations.catalog}
+              {translations.gallery}
             </Link>
             <Link 
               href={`/${locale}/comunidad`}
@@ -97,6 +99,13 @@ export default function ClientMobileNav({ currentLocale, translations }: MobileN
               onClick={() => setIsOpen(false)}
             >
               {translations.community}
+            </Link>
+            <Link 
+              href={`/${locale}/patrocinadores`}
+              className={`hover:text-primary transition-colors ${isActive('/patrocinadores')}`}
+              onClick={() => setIsOpen(false)}
+            >
+              {translations.sponsors}
             </Link>
             <Link 
               href={`/${locale}/contacto`}
@@ -111,7 +120,7 @@ export default function ClientMobileNav({ currentLocale, translations }: MobileN
                 className={`hover:text-primary transition-colors text-gray-700`}
                 onClick={() => setIsOpen(false)}
               >
-                {locale === 'en' ? 'Login' : 'Iniciar sesion'}
+                {translations.login || (locale === 'en' ? 'Login' : 'Iniciar sesion')}
               </Link>
             )}
           </nav>
@@ -119,4 +128,4 @@ export default function ClientMobileNav({ currentLocale, translations }: MobileN
       )}
     </div>
   );
-} 
+}
