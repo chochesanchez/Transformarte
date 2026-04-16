@@ -131,12 +131,12 @@ export const dynamic = 'force-dynamic';
 export default async function CommunityPage({
   params,
 }: {
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }) {
   const resolvedParams = await params;
   const locale = resolvedParams.locale || 'es';
   const t = content[locale === 'en' ? 'en' : 'es'];
-  
+
   const posts = await getForumPosts();
 
   // server-side check for auth cookie

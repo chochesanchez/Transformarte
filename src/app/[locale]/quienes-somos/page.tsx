@@ -39,7 +39,7 @@ const content = {
   }
 };
 
-export default async function AboutPage({ params }: { params: { locale: string } }) {
+export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
   const resolvedParams = await params;
   const locale = resolvedParams.locale || 'es';
   const t = content[locale === 'en' ? 'en' : 'es'];

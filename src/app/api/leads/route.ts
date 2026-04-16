@@ -34,21 +34,21 @@ export async function POST(request: NextRequest) {
       phone: String(form.get('phone') || ''),
     });
 
-    const file = form.get('file') as unknown as File | null;
+    const file = form.get('file') as File | null;
     let filePath: string | undefined;
     let fileMime: string | undefined;
     let fileSize: number | undefined;
 
     if (file) {
-      fileMime = (file as any).type || '';
-      fileSize = (file as any).size || 0;
+      fileMime = file.type || '';
+      fileSize = file.size || 0;
       if (!ALLOWED_MIME.includes(fileMime)) {
         return NextResponse.json({ ok: false, error: 'Unsupported file type' }, { status: 400 });
       }
       if (fileSize > BODY_LIMIT) {
         return NextResponse.json({ ok: false, error: 'File too large' }, { status: 400 });
       }
-      const arrayBuffer = await (file as any).arrayBuffer();
+      const arrayBuffer = await file.arrayBuffer();
       const bytes = new Uint8Array(arrayBuffer);
       const ext = fileMime === 'application/pdf' ? 'pdf' : fileMime.split('/')[1] || 'bin';
       const key = `leads/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;

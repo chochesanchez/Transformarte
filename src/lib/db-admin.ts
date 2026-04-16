@@ -1,98 +1,42 @@
 import prisma from './prisma';
 
+/**
+ * Admin-only database helpers.
+ * These functions operate through Prisma and are intended for use only
+ * from server-side admin API routes that have already verified the caller
+ * is an admin or superadmin.
+ */
 export const dbAdmin = {
-  // Artwork Management
-  async listArtworks() {
-    return await prisma.artwork.findMany({
-      orderBy: { createdAt: 'desc' }
+  // ── Artworks ───────────────────────────────────────────────────────────────
+  listArtworks() {
+    return prisma.artwork.findMany({ orderBy: { createdAt: 'desc' } });
+  },
+
+  deleteArtwork(id: number) {
+    return prisma.artwork.delete({ where: { id } });
+  },
+
+  // ── Forum posts ────────────────────────────────────────────────────────────
+  listForumPosts() {
+    return prisma.forumPost.findMany({
+      include: { user: true, reports: true },
+      orderBy: { createdAt: 'desc' },
     });
   },
 
-  async deleteArtwork(id: number) {
-    try {
-      await prisma.artwork.delete({
-        where: { id }
-      });
-      console.log(`Artwork ${id} deleted successfully`);
-      return true;
-    } catch (error) {
-      console.error(`Error deleting artwork ${id}:`, error);
-      return false;
-    }
+  deleteForumPost(id: number) {
+    return prisma.forumPost.delete({ where: { id } });
   },
 
-  // Forum Posts Management
-  async listForumPosts() {
-    return await prisma.forumPost.findMany({
-      include: {
-        user: true,
-        reports: true
-      },
-      orderBy: { createdAt: 'desc' }
+  // ── Events ─────────────────────────────────────────────────────────────────
+  listEvents() {
+    return prisma.event.findMany({
+      include: { registrations: true },
+      orderBy: { date: 'desc' },
     });
   },
 
-  async deleteForumPost(id: number) {
-    try {
-      await prisma.forumPost.delete({
-        where: { id }
-      });
-      console.log(`Forum post ${id} deleted successfully`);
-      return true;
-    } catch (error) {
-      console.error(`Error deleting forum post ${id}:`, error);
-      return false;
-    }
+  deleteEvent(id: number) {
+    return prisma.event.delete({ where: { id } });
   },
-
-  // Event Management
-  async listEvents() {
-    return await prisma.event.findMany({
-      include: {
-        registrations: true
-      },
-      orderBy: { date: 'desc' }
-    });
-  },
-
-  async deleteEvent(id: number) {
-    try {
-      await prisma.event.delete({
-        where: { id }
-      });
-      console.log(`Event ${id} deleted successfully`);
-      return true;
-    } catch (error) {
-      console.error(`Error deleting event ${id}:`, error);
-      return false;
-    }
-  }
 };
-
-// Example usage:
-async function example() {
-  try {
-    // List all artworks
-    console.log('All artworks:');
-    const artworks = await dbAdmin.listArtworks();
-    console.log(artworks);
-
-    // Delete an artwork (replace 1 with actual ID)
-    // await dbAdmin.deleteArtwork(1);
-
-    // List all forum posts
-    console.log('All forum posts:');
-    const posts = await dbAdmin.listForumPosts();
-    console.log(posts);
-
-    // Delete a forum post (replace 1 with actual ID)
-    // await dbAdmin.deleteForumPost(1);
-  } catch (error) {
-    console.error('Error:', error);
-  } finally {
-    await prisma.$disconnect();
-  }
-}
-
-// Uncomment to run the example
-// example(); 

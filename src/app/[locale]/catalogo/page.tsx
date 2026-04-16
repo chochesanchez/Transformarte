@@ -111,7 +111,7 @@ const content = {
 export default async function CatalogPage({
   params,
 }: {
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }) {
   const resolvedParams = await params;
   const locale = resolvedParams.locale || 'es';

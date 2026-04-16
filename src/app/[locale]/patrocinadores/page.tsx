@@ -132,7 +132,7 @@ const content = {
   }
 };
 
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   const locale = resolvedParams.locale || 'es';
   const t = content[locale === 'en' ? 'en' : 'es'];
@@ -146,7 +146,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 export default async function PatrocinadoresPage({
   params,
 }: {
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }) {
   const resolvedParams = await params;
   const locale = resolvedParams.locale || 'es';

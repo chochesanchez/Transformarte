@@ -3,13 +3,10 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function ProfilePage({ params }: { params: Promise<{ locale: string }> | { locale: string } }) {
+export default function ProfilePage({ params }: { params: Promise<{ locale: string }> }) {
   const [locale, setLocale] = React.useState<'en'|'es'>('es');
   React.useEffect(() => {
-    (async () => {
-      const p: any = (params as any).then ? await (params as any) : params;
-      setLocale(p?.locale === 'en' ? 'en' : 'es');
-    })();
+    params.then((p) => setLocale(p?.locale === 'en' ? 'en' : 'es')).catch(() => setLocale('es'));
   }, [params]);
   const [name, setName] = React.useState('');
   const [loading, setLoading] = React.useState(true);

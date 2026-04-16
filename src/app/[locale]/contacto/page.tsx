@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import ConfirmationPopup from '@/components/ConfirmationPopup';
-import qrImg from '../../../../spec/IMG_4890.JPG';
+const qrImg = '/qr-donation.jpg';
 
 // Static content for the page
 const content = {

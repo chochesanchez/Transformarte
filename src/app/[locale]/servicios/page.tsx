@@ -117,14 +117,14 @@ const content = {
   }
 };
 
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   const locale = resolvedParams.locale || 'es';
   const t = content[locale === 'en' ? 'en' : 'es'];
   return { title: t.title, description: t.heroDescription };
 }
 
-export default async function ServiciosPage({ params }: { params: { locale: string } }) {
+export default async function ServiciosPage({ params }: { params: Promise<{ locale: string }> }) {
   const resolvedParams = await params;
   const locale = resolvedParams.locale || 'es';
   const t = content[locale === 'en' ? 'en' : 'es'];

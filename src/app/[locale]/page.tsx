@@ -69,17 +69,15 @@ export default async function HomePage({
               </Link>
             </div>
           </div>
-          <div className="md:w-1/2 flex justify-center">
-            <div className="relative w-full max-w-md flex items-center justify-center" style={{ height: 320 }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img 
-                src="/logo.png" 
-                alt="TransformArte Logo"
-                style={{ width: 'auto', height: '100%', display: 'block' }}
-                className="drop-shadow-2xl"
-              />
-            </div>
-          </div>
+          <div className="md:w-1/2 w-full flex justify-center items-center">
+  <div className="bg-white rounded-full w-[370px] h-[370px] flex items-center justify-center shadow-2xl">
+    <img
+  src="/logo.png"
+  alt="TransformArte Logo"
+  className="w-[400px] h-[500px] object-contain translate-x-[10px]"
+/>
+  </div>
+</div>
         </div>
       </section>
 

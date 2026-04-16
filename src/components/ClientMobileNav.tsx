@@ -56,75 +56,84 @@ export default function ClientMobileNav({ currentLocale, translations }: MobileN
       </button>
       
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white shadow-md z-20 py-4 px-8">
-          <nav className="flex flex-col space-y-4">
-            <Link 
-              href={`/${locale}`}
-              className={`hover:text-primary transition-colors ${isActive('/')}`}
-              onClick={() => setIsOpen(false)}
-            >
-              {translations.home}
-            </Link>
-            <Link 
-              href={`/${locale}/proyecto`}
-              className={`hover:text-primary transition-colors ${isActive('/proyecto')}`}
-              onClick={() => setIsOpen(false)}
-            >
-              {translations.project}
-            </Link>
-            <Link 
-              href={`/${locale}/servicios`}
-              className={`hover:text-primary transition-colors ${isActive('/servicios')}`}
-              onClick={() => setIsOpen(false)}
-            >
-              {translations.programs}
-            </Link>
-            <Link 
-              href={`/${locale}/quienes-somos`}
-              className={`hover:text-primary transition-colors ${isActive('/quienes-somos')}`}
-              onClick={() => setIsOpen(false)}
-            >
-              {translations.about}
-            </Link>
-            <Link 
-              href={`/${locale}/catalogo`}
-              className={`hover:text-primary transition-colors ${isActive('/catalogo')}`}
-              onClick={() => setIsOpen(false)}
-            >
-              {translations.gallery}
-            </Link>
-            <Link 
-              href={`/${locale}/comunidad`}
-              className={`hover:text-primary transition-colors ${isActive('/comunidad')}`}
-              onClick={() => setIsOpen(false)}
-            >
-              {translations.community}
-            </Link>
-            <Link 
-              href={`/${locale}/patrocinadores`}
-              className={`hover:text-primary transition-colors ${isActive('/patrocinadores')}`}
-              onClick={() => setIsOpen(false)}
-            >
-              {translations.sponsors}
-            </Link>
-            <Link 
-              href={`/${locale}/contacto`}
-              className={`hover:text-primary transition-colors ${isActive('/contacto')}`}
-              onClick={() => setIsOpen(false)}
-            >
-              {translations.contact}
-            </Link>
-            {!isAuthed && (
-              <Link 
-                href={`/${locale}/auth`}
-                className={`hover:text-primary transition-colors text-gray-700`}
+        <>
+          {/* Backdrop — tap outside to close */}
+          <div
+            className="fixed inset-0 top-20 z-40"
+            onClick={() => setIsOpen(false)}
+            aria-hidden="true"
+          />
+          {/* Menu panel — fixed so it always sits flush below the 80px navbar */}
+          <div className="fixed inset-x-0 top-20 z-50 bg-white shadow-lg py-6 px-8">
+            <nav className="flex flex-col space-y-4">
+              <Link
+                href={`/${locale}`}
+                className={`hover:text-primary transition-colors ${isActive('/')}`}
                 onClick={() => setIsOpen(false)}
               >
-                {translations.login || (locale === 'en' ? 'Login' : 'Iniciar sesion')}
+                {translations.home}
               </Link>
-            )}
-          </nav>
-        </div>
+              <Link
+                href={`/${locale}/proyecto`}
+                className={`hover:text-primary transition-colors ${isActive('/proyecto')}`}
+                onClick={() => setIsOpen(false)}
+              >
+                {translations.project}
+              </Link>
+              <Link
+                href={`/${locale}/servicios`}
+                className={`hover:text-primary transition-colors ${isActive('/servicios')}`}
+                onClick={() => setIsOpen(false)}
+              >
+                {translations.programs}
+              </Link>
+              <Link
+                href={`/${locale}/quienes-somos`}
+                className={`hover:text-primary transition-colors ${isActive('/quienes-somos')}`}
+                onClick={() => setIsOpen(false)}
+              >
+                {translations.about}
+              </Link>
+              <Link
+                href={`/${locale}/catalogo`}
+                className={`hover:text-primary transition-colors ${isActive('/catalogo')}`}
+                onClick={() => setIsOpen(false)}
+              >
+                {translations.gallery}
+              </Link>
+              <Link
+                href={`/${locale}/comunidad`}
+                className={`hover:text-primary transition-colors ${isActive('/comunidad')}`}
+                onClick={() => setIsOpen(false)}
+              >
+                {translations.community}
+              </Link>
+              <Link
+                href={`/${locale}/patrocinadores`}
+                className={`hover:text-primary transition-colors ${isActive('/patrocinadores')}`}
+                onClick={() => setIsOpen(false)}
+              >
+                {translations.sponsors}
+              </Link>
+              <Link
+                href={`/${locale}/contacto`}
+                className={`hover:text-primary transition-colors ${isActive('/contacto')}`}
+                onClick={() => setIsOpen(false)}
+              >
+                {translations.contact}
+              </Link>
+              {!isAuthed && (
+                <Link
+                  href={`/${locale}/auth`}
+                  className="hover:text-primary transition-colors text-gray-700"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {translations.login || (locale === 'en' ? 'Login' : 'Iniciar sesion')}
+                </Link>
+              )}
+            </nav>
+          </div>
+        </>
       )}
     </div>
   );

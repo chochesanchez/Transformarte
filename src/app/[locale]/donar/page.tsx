@@ -283,7 +283,7 @@ function RadioButtonGroup({
 export default function DonatePage({
   params,
 }: {
-  params: { locale: string } | Promise<{ locale: string }>
+  params: Promise<{ locale: string }>
 }) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [locale, setLocale] = useState<'en'|'es'>('es');
@@ -299,15 +299,9 @@ export default function DonatePage({
   const [signatureError, setSignatureError] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const p: any = params && (params as any).then ? await (params as any) : params;
-        const loc = p?.locale === 'en' ? 'en' : 'es';
-        setLocale(loc);
-      } catch {
-        setLocale('es');
-      }
-    })();
+    params.then((p) => {
+      setLocale(p?.locale === 'en' ? 'en' : 'es');
+    }).catch(() => setLocale('es'));
   }, [params]);
   
   const t = content[locale === 'en' ? 'en' : 'es'];
