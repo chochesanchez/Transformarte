@@ -173,8 +173,8 @@ export default async function HomePage({
               </h2>
               <p className="text-lg text-gray-600 mb-8">
                 {locale === 'en' 
-                  ? 'Join us on this transformative journey with an exhibition of 60 masterpieces that make up an innovative tour combining art and psychology called Laberinto TransformArte.' 
-                  : 'Únete a nosotros en este viaje transformador con una exhibición de 60 obras maestras que conforman un innovador recorrido combinando arte y psicología llamado Laberinto TransformArte.'}
+                  ? 'Join us on this transformative journey with an exhibition of 70 masterpieces that make up an innovative tour combining art and psychology called Laberinto TransformArte.' 
+                  : 'Únete a nosotros en este viaje transformador con una exhibición de 70 obras maestras que conforman un innovador recorrido combinando arte y psicología llamado Laberinto TransformArte.'}
               </p>
               
               {/* Cities */}
@@ -209,11 +209,11 @@ export default async function HomePage({
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center p-4 bg-blue-50 rounded-xl">
-                  <div className="text-3xl font-bold text-blue-600">60</div>
+                  <div className="text-3xl font-bold text-blue-600">70</div>
                   <div className="text-gray-600 text-sm">{locale === 'en' ? 'Masterpieces' : 'Obras Maestras'}</div>
                 </div>
                 <div className="text-center p-4 bg-yellow-50 rounded-xl">
-                  <div className="text-3xl font-bold text-yellow-600">8</div>
+                  <div className="text-3xl font-bold text-yellow-600">7</div>
                   <div className="text-gray-600 text-sm">{locale === 'en' ? 'Cities' : 'Ciudades'}</div>
                 </div>
                 <div className="text-center p-4 bg-green-50 rounded-xl">
