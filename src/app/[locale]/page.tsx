@@ -61,12 +61,6 @@ export default async function HomePage({
               >
                 {locale === 'en' ? 'DONATE NOW' : 'DONAR AHORA'}
               </a>
-              <Link
-                href={`/${locale}/donar`}
-                className="bg-transparent border-2 border-white hover:bg-white/10 text-white px-8 py-4 rounded-full text-lg font-semibold transition-colors shadow-lg inline-block text-center"
-              >
-                {locale === 'en' ? 'Donate Artwork' : 'Donar Obra'}
-              </Link>
             </div>
           </div>
           <div className="md:w-1/2 w-full flex justify-center items-center">
@@ -340,12 +334,6 @@ export default async function HomePage({
             >
               {locale === 'en' ? '💝 DONATE NOW' : '💝 DONAR AHORA'}
             </a>
-            <Link 
-              href={`/${locale}/donar`} 
-              className="bg-transparent border-2 border-white hover:bg-white/10 text-white px-8 py-4 rounded-full text-lg font-semibold transition-colors shadow-lg inline-block"
-            >
-              {locale === 'en' ? '🎨 Donate Artwork' : '🎨 Donar Obra de Arte'}
-            </Link>
           </div>
           <p className="mt-8 text-sm text-blue-200">
             {locale === 'en'
