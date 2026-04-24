@@ -196,6 +196,17 @@ model ContactMessage {
   @@map("contact_messages")
 }
 
+model Visit {
+  id        Int      @id @default(autoincrement())
+  userId    Int?     @map("user_id")
+  city      String?
+  country   String?
+  userAgent String?  @map("user_agent")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("visits")
+}
+
 /// Leads captured from the website with optional file upload
 model Lead {
   id        Int      @id @default(autoincrement())

@@ -8,9 +8,10 @@ import { Toaster } from 'react-hot-toast';
 
 export default function AppChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() || '';
-  const isAuth = /\/(en|es)\/auth(\/)?$/.test(pathname);
+  const isAuth  = /\/(en|es)\/auth(\/)?$/.test(pathname);
+  const isAdmin = /\/(en|es)\/admin(\/|$)/.test(pathname);
 
-  if (isAuth) {
+  if (isAuth || isAdmin) {
     return (
       <>
         <main className="min-h-screen pt-0">{children}</main>

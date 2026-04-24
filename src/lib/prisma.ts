@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 
 // Create Prisma Client with logging
-const datasourceUrl = process.env.DIRECT_URL || process.env.DATABASE_URL;
+const datasourceUrl = process.env.DATABASE_URL;
 
 // Only create real client if we have a database URL
 const globalForPrisma = globalThis as unknown as {
@@ -10,18 +10,14 @@ const globalForPrisma = globalThis as unknown as {
 
 function createPrismaClient() {
   if (!datasourceUrl) {
-    console.warn('[prisma] Missing DATABASE_URL or DIRECT_URL. Database operations will fail.');
-    // Return a dummy client during build time
+    console.warn('[prisma] Missing DATABASE_URL. Database operations will fail.');
     return new PrismaClient();
   }
 
   return new PrismaClient({
-    datasources: {
-      db: { url: datasourceUrl }
-    },
-    log: process.env.NODE_ENV === 'development' 
-      ? ['query', 'error', 'warn'] 
-      : ['error']
+    log: process.env.NODE_ENV === 'development'
+      ? ['query', 'error', 'warn']
+      : ['error'],
   });
 }
 

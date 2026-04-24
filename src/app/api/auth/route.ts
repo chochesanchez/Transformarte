@@ -23,13 +23,13 @@ export async function POST(request: NextRequest) {
   if (action === 'signup') {
     try {
       if (!supabaseEnvOk) {
-        return NextResponse.json({ ok: false, error: 'Supabase is not configured (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY)' }, { status: 500 });
+        return NextResponse.json({ ok: false, error: 'Database not configured' }, { status: 500 });
       }
       const body = await request.json();
       const data = SignupSchema.parse(body);
       const { data: found, error: selectErr } = await supabase
         .from('users')
-        .select('*')
+        .select('id')
         .eq('email', data.email)
         .maybeSingle();
       if (selectErr) {
@@ -40,20 +40,15 @@ export async function POST(request: NextRequest) {
       const { data: user, error } = await supabase
         .from('users')
         .insert([{ email: data.email, passwordHash, fullName: data.displayName, role: 'user', isActive: true }])
-        .select('*')
+        .select('id, email, "fullName", role')
         .single();
       if (error) {
         return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
       }
       const token = await createSession({ id: user.id, email: user.email, fullName: user.fullName, role: user.role });
       const res = NextResponse.json({ ok: true, user: { id: user.id, email: user.email, fullName: user.fullName } }, { status: 201 });
-      // Mirror cookie on response headers for edge/middleware compatibility
       res.cookies.set(process.env.COOKIE_NAME || 'ta_session', token, {
-        httpOnly: true,
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production',
-        path: '/',
-        maxAge: 60 * 60 * 24 * 30,
+        httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', path: '/', maxAge: 60 * 60 * 24 * 30,
       });
       return res;
     } catch (err: any) {
@@ -64,7 +59,7 @@ export async function POST(request: NextRequest) {
   if (action === 'login') {
     try {
       if (!supabaseEnvOk) {
-        return NextResponse.json({ ok: false, error: 'Supabase is not configured (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY)' }, { status: 500 });
+        return NextResponse.json({ ok: false, error: 'Database not configured' }, { status: 500 });
       }
       const body = await request.json();
       const data = LoginSchema.parse(body);
@@ -82,11 +77,7 @@ export async function POST(request: NextRequest) {
       const token = await createSession({ id: user.id, email: user.email, fullName: user.fullName, role: user.role });
       const res = NextResponse.json({ ok: true, user: { id: user.id, email: user.email, fullName: user.fullName } });
       res.cookies.set(process.env.COOKIE_NAME || 'ta_session', token, {
-        httpOnly: true,
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production',
-        path: '/',
-        maxAge: 60 * 60 * 24 * 30,
+        httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', path: '/', maxAge: 60 * 60 * 24 * 30,
       });
       return res;
     } catch (err: any) {
@@ -98,11 +89,7 @@ export async function POST(request: NextRequest) {
     await clearSession();
     const res = NextResponse.json({ ok: true });
     res.cookies.set(process.env.COOKIE_NAME || 'ta_session', '', {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-      path: '/',
-      maxAge: 0,
+      httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', path: '/', maxAge: 0,
     });
     return res;
   }
@@ -115,5 +102,3 @@ export async function GET(request: NextRequest) {
   if (!user) return NextResponse.json({ ok: true, user: null });
   return NextResponse.json({ ok: true, user: { id: user.id, email: user.email, fullName: user.fullName, role: user.role } });
 }
-
-
